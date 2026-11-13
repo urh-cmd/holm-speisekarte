@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Holm" />
+  <meta name="theme-color" content="#f3eee6" />
+  <title>Holm · Speisekarte · Tisch 7</title>
+  <style>
+    @font-face {
+      font-family: Fraunces;
+      src: url("fonts/fraunces.woff2") format("woff2");
+      font-weight: 500 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: Outfit;
+      src: url("fonts/outfit.woff2") format("woff2");
+      font-weight: 400 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root {
+      --bg: #f3eee6;
+      --ink: #211c17;
+      --muted: #6e655c;
+      --faint: #8d847a;
+      --line: #ddd4c6;
+      --accent: #7a332e;
+      --serif: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
+      --sans: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: #241f1c;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.4;
+      user-select: none;
+    }
+    h1, h2, h3, p { margin: 0; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    button:disabled { cursor: default; }
+    img { display: block; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .device {
+      width: min(1180px, calc(100vw - 48px));
+      height: min(800px, calc(100dvh - 48px));
+      background: var(--bg);
+      border: 12px solid #14110f;
+      border-radius: 22px;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 18px 12px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    h1 { display: flex; flex-direction: column; }
+    h1 span {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 30px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    h1 small {
+      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .head-meta { display: flex; align-items: center; gap: 14px; }
+    time { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 14px; }
+    .ticket {
+      border: 1px solid var(--ink);
+      padding: 7px 10px 6px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 188px minmax(0, 1fr) 318px;
+      min-height: 0;
+    }
+    .rail {
+      border-right: 1px solid var(--line);
+      padding: 16px 12px 16px 14px;
+      overflow: auto;
+    }
+    .kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .rail .kicker { margin: 2px 10px 8px; }
+    .rail button {
+      display: block;
+      width: 100%;
+      text-align: left;
+      min-height: 44px;
+      padding: 10px 10px;
+      border: 0;
+      border-left: 2px solid transparent;
+      background: transparent;
+      color: var(--muted);
+    }
+    .rail button[aria-current="true"] {
+      color: var(--ink);
+      border-left-color: var(--ink);
+      background: #e8e0d3;
+    }
+
+    #menu {
+      overflow: auto;
+      padding: 20px 26px 28px;
+      scroll-behavior: smooth;
+      scrollbar-color: #cfc4b4 transparent;
+    }
+    .section { margin-top: 28px; scroll-margin-top: 12px; }
+    .section:first-child { margin-top: 0; }
+    .section h2 {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+    .lead { margin-top: 3px; color: var(--muted); font-size: 14px; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .feature {
+      display: block;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+    }
+    .feature img { width: 100%; height: 148px; object-fit: cover; background: #e6ddcf; }
+    .feature:disabled img { opacity: 0.55; }
+    .fn {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      margin-top: 8px;
+    }
+    .ft { font-family: var(--serif); font-size: 18px; font-weight: 560; letter-spacing: -0.02em; }
+    .fp { font-variant-numeric: tabular-nums; font-size: 14px; }
+    .feature:disabled .fp {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .fd { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; }
+
+    .rows { margin-top: 6px; }
+    .item {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      width: 100%;
+      padding: 11px 4px;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      text-align: left;
+    }
+    .rows .item:first-child { border-top: 1px solid var(--line); margin-top: 8px; }
+    .item:not(:disabled):hover { background: rgba(33, 28, 23, 0.035); }
+    .thumb { width: 72px; height: 72px; overflow: hidden; background: #e6ddcf; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .item:disabled .thumb img { opacity: 0.45; }
+    .mono {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      font-family: var(--serif);
+      font-size: 28px;
+      color: #6d6256;
+    }
+    .name {
+      display: block;
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 560;
+      letter-spacing: -0.02em;
+    }
+    .tag {
+      margin-left: 8px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      position: relative;
+      top: -2px;
+    }
+    .desc { display: block; margin-top: 2px; color: var(--muted); font-size: 13.5px; }
+    .all {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--faint);
+    }
+    .price { font-variant-numeric: tabular-nums; font-size: 15px; }
+    .item:disabled .price {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .legend {
+      margin-top: 26px;
+      max-width: 68ch;
+      color: var(--faint);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    aside {
+      min-height: 0;
+      display: flex;
+      background: #ebe4d6;
+      border-left: 1px solid var(--line);
+    }
+    #slip {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 16px 14px;
+    }
+    .slip-body { flex: 1; min-height: 0; overflow: auto; }
+    .slip-title {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+      margin: 4px 0 12px;
+    }
+    .how { list-style: none; margin: 8px 0 0; padding: 0; }
+    .how li {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 8px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .how span { font-family: var(--serif); color: var(--accent); font-size: 18px; line-height: 1.2; }
+    .how-note { margin-top: 14px; color: var(--muted); font-size: 14px; }
+    .lines { list-style: none; margin: 0; padding: 0; }
+    .lines li {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: start;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .ln { display: block; font-family: var(--serif); font-size: 16px; font-weight: 560; }
+    .ld { display: block; margin-top: 2px; color: var(--muted); font-size: 12.5px; }
+    .lp { font-variant-numeric: tabular-nums; font-size: 14px; padding-top: 4px; }
+    .stepper {
+      display: inline-grid;
+      grid-template-columns: 36px 22px 36px;
+      align-items: center;
+      justify-items: center;
+      border: 1px solid var(--ink);
+    }
+    .stepper button {
+      width: 36px;
+      height: 40px;
+      border: 0;
+      background: transparent;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--ink);
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 560;
+    }
+    .slip-foot { padding-top: 12px; }
+    .send {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      background: var(--ink);
+      color: #f4efe7;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .send:disabled { background: #d9d0c3; color: #8c8378; }
+    .fine { margin-top: 8px; text-align: center; color: var(--muted); font-size: 12px; }
+    .order-no {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 72px;
+      line-height: 0.85;
+      letter-spacing: -0.045em;
+      margin: 12px 0 8px;
+    }
+    .where { color: var(--muted); font-size: 14px; }
+    .bring { margin-top: 14px; font-size: 14.5px; }
+    .q { font-variant-numeric: tabular-nums; padding-top: 3px; color: var(--muted); }
+
+    #sheet {
+      border: 0;
+      padding: 0;
+      color: var(--ink);
+      background: #f6f1e8;
+      width: min(760px, calc(100vw - 72px));
+      max-height: calc(100dvh - 72px);
+    }
+    #sheet::backdrop { background: rgba(20, 16, 13, 0.5); }
+    .sheet { display: grid; min-height: 420px; }
+    .sheet.has-photo { grid-template-columns: 268px minmax(0, 1fr); }
+    .sheet-photo { position: relative; background: #e6ddcf; min-height: 240px; }
+    .sheet-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .sheet-copy { padding: 20px 22px 18px; }
+    .sheet-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .sheet-top h2 {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 32px;
+      letter-spacing: -0.03em;
+    }
+    .sheet-top button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      min-height: 44px;
+      padding: 0 2px;
+    }
+    .sheet-copy > .desc { margin: 6px 0 10px; color: var(--muted); }
+    .all.full { letter-spacing: 0; font-size: 13px; color: var(--muted); }
+    fieldset { border: 0; margin: 14px 0 0; padding: 0; }
+    legend {
+      padding: 0;
+      margin-bottom: 8px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .choices { display: flex; flex-wrap: wrap; gap: 8px; }
+    .choices button {
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid #cfc4b4;
+      background: transparent;
+    }
+    .choices button[aria-pressed="true"] {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #f4efe7;
+    }
+    .sheet-actions { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
+    .sheet-actions .stepper { grid-template-columns: 42px 28px 42px; }
+    .sheet-actions .stepper button { width: 42px; height: 48px; }
+    .add {
+      flex: 1;
+      min-height: 48px;
+      border: 0;
+      background: var(--ink);
+      color: #f4efe7;
+      font-weight: 500;
+    }
+    .turn {
+      display: none;
+    }
+    @media (any-pointer: coarse) and (max-width: 1400px) and (orientation: landscape) {
+      body { background: var(--bg); }
+      .device {
+        width: 100%;
+        height: 100%;
+        height: 100svh;
+        border: 0;
+        border-radius: 0;
+      }
+      header {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(18px, env(safe-area-inset-right));
+      }
+      .slip-foot { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+    }
+    @media (any-pointer: coarse) and (orientation: portrait) {
+      .turn {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+        background: #241f1c;
+        color: #f3eee6;
+        text-align: center;
+      }
+      .turn p {
+        font-family: var(--serif);
+        font-size: 32px;
+        letter-spacing: -0.03em;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="turn"><p>Zum Vorstellen quer halten.</p></div>
+  <div class="device">
+    <header>
+      <h1>
+        <span>Holm</span>
+        <small>Bäckerei und Café</small>
+      </h1>
+      <div class="head-meta">
+        <time>Sa 8:42</time>
+        <span class="ticket">Tisch 7</span>
+      </div>
+    </header>
+    <div class="stage">
+      <nav class="rail" aria-label="Kategorien">
+        <p class="kicker">Karte</p>
+        <div id="cats"></div>
+      </nav>
+      <main id="menu"></main>
+      <aside aria-label="Ihre Bestellung">
+        <div id="slip"></div>
+      </aside>
+    </div>
+  </div>
+  <dialog id="sheet"></dialog>
+  <div id="live" class="sr" aria-live="polite"></div>
+  <script>
+    const ALLERGENS = {
+      A: "Gluten",
+      C: "Eier",
+      G: "Milch",
+      H: "Schalenfrüchte",
+      L: "Sellerie",
+      M: "Senf",
+    };
+
+    const photo = {
+      cap: "bilder/holm-cappuccino.jpg",
+      croissant: "bilder/holm-croissant.jpg",
+      pflaume: "bilder/holm-pflaume.jpg",
+      lauge: "bilder/holm-lauge.jpg",
+      frueh: "bilder/holm-fruehstueck.jpg",
+      quiche: "bilder/holm-quiche.jpg",
+    };
+
+    const categories = [
+      { id: "backstube", label: "Backstube", lead: "Heute früh gebacken. Was weg ist, ist weg." },
+      { id: "kaffee", label: "Kaffee", lead: "Siebträger an der Theke. Hafer ist Barista-Hafer." },
+      { id: "fruehstueck", label: "Frühstück", lead: "Bis 11:30 Uhr." },
+      { id: "kuchen", label: "Kuchen", lead: "Aus der Auslage, vom Stück." },
+      { id: "herzhaft", label: "Herzhaft", lead: "Warm aus der Küche, Semmeln von nebenan." },
+      { id: "kalt", label: "Kalt", lead: "Die Limo machen wir selbst." },
+    ];
+
+    const items = [
+      {
+        id: "croissant",
+        cat: "backstube",
+        name: "Buttercroissant",
+        desc: "Blätterteig, mit Butter gezogen.",
+        price: 290,
+        allergens: ["A", "G"],
+        image: photo.croissant,
+        feature: 1,
+        featureOnly: true,
+        options: [{
+          id: "dazu",
+          label: "Dazu",
+          choices: [
+            { id: "natur", label: "Natur", silent: true, default: true },
+            { id: "butter", label: "Mit Butter", price: 40 },
+            { id: "marmelade", label: "Butter und Marmelade", price: 110 },
+          ],
+        }],
+      },
+      {
+        id: "lauge",
+        cat: "backstube",
+        name: "Laugenstange",
+        desc: "Krustig, grobes Salz.",
+        price: 240,
+        allergens: ["A"],
+        image: photo.lauge,
+        feature: 2,
+        featureOnly: true,
+        options: [{
+          id: "butter",
+          label: "Butter",
+          choices: [
+            { id: "ohne", label: "Ohne Butter", silent: true, default: true },
+            { id: "mit", label: "Mit Butter", price: 40, allergens: ["G"] },
+          ],
+        }],
+      },
+      {
+        id: "pflaume",
+        cat: "kuchen",
+        name: "Pflaumenkuchen",
+        desc: "Hefeteig und Zwetschgen.",
+        price: 440,
+        allergens: ["A", "C"],
+        image: photo.pflaume,
+        feature: 3,
+        soldOut: true,
+      },
+      {
+        id: "espresso",
+        cat: "kaffee",
+        name: "Espresso",
+        desc: "Kurze Tasse.",
+        price: 240,
+        options: [{
+          id: "shot",
+          label: "Bezug",
+          choices: [
+            { id: "ein", label: "Einfach", silent: true, default: true },
+            { id: "doppel", label: "Doppelt", price: 80 },
+          ],
+        }],
+      },
+      {
+        id: "cap",
+        cat: "kaffee",
+        name: "Cappuccino",
+        desc: "Doppelter Espresso, fester Schaum.",
+        price: 380,
+        image: photo.cap,
+        options: [
+          {
+            id: "size",
+            label: "Größe",
+            choices: [
+              { id: "s", label: "Klein", price: -40 },
+              { id: "m", label: "Tasse", silent: true, default: true },
+              { id: "l", label: "Groß", price: 60 },
+            ],
+          },
+          {
+            id: "milk",
+            label: "Milch",
+            choices: [
+              { id: "voll", label: "Vollmilch", silent: true, default: true, allergens: ["G"] },
+              { id: "hafer", label: "Hafermilch", price: 60, allergens: ["G"] },
+              { id: "ohne", label: "Ohne Milch" },
+            ],
+          },
+        ],
+      },
+      {
+        id: "flat",
+        cat: "kaffee",
+        name: "Flat White",
+        desc: "Wenig Schaum, doppelter Espresso.",
+        price: 420,
+        options: [{
+          id: "milk",
+          label: "Milch",
+          choices: [
+            { id: "voll", label: "Vollmilch", silent: true, default: true, allergens: ["G"] },
+            { id: "hafer", label: "Hafermilch", price: 60, allergens: ["G"] },
+            { id: "ohne", label: "Ohne Milch" },
+          ],
+        }],
+      },
+      {
+        id: "filter",
+        cat: "kaffee",
+        name: "Filterkaffee",
+        desc: "Helle Röstung. Kanne auf Wunsch.",
+        price: 320,
+        options: [{
+          id: "menge",
+          label: "Menge",
+          choices: [
+            { id: "tasse", label: "Tasse", silent: true, default: true },
+            { id: "kanne", label: "Kanne", price: 260 },
+          ],
+        }],
+      },
+      {
+        id: "schoko",
+        cat: "kaffee",
+        name: "Heiße Schokolade",
+        desc: "Geschmolzene Schokolade, keine Tüte.",
+        price: 390,
+        allergens: ["G"],
+      },
+      {
+        id: "tee",
+        cat: "kaffee",
+        name: "Tee",
+        desc: "Lose, aufgegossen an der Theke.",
+        price: 340,
+        options: [{
+          id: "sorte",
+          label: "Sorte",
+          choices: [
+            { id: "assam", label: "Assam", default: true },
+            { id: "minze", label: "Pfefferminze" },
+            { id: "kamille", label: "Kamille" },
+          ],
+        }],
+      },
+      {
+        id: "frueh",
+        cat: "fruehstueck",
+        name: "Frühstück der Bäckerei",
+        desc: "Semmel, Butter, Marmelade, Käse, Ei.",
+        price: 980,
+        allergens: ["A", "G"],
+        image: photo.frueh,
+        options: [{
+          id: "ei",
+          label: "Ei",
+          choices: [
+            { id: "weich", label: "Ei weich", silent: true, default: true, allergens: ["C"] },
+            { id: "fest", label: "Ei fest", allergens: ["C"] },
+            { id: "ohne", label: "Ohne Ei", price: -80 },
+          ],
+        }],
+      },
+      {
+        id: "suess",
+        cat: "fruehstueck",
+        name: "Süßer Teller",
+        desc: "Croissant, Butter, Marmelade.",
+        price: 750,
+        allergens: ["A", "G"],
+      },
+      {
+        id: "joghurt",
+        cat: "fruehstueck",
+        name: "Naturjoghurt",
+        desc: "Mit Hausmüsli.",
+        price: 480,
+        allergens: ["G", "H"],
+      },
+      {
+        id: "apfel",
+        cat: "kuchen",
+        name: "Apfelstreusel",
+        desc: "Apfel, Streusel, Zimt.",
+        price: 420,
+        allergens: ["A"],
+      },
+      {
+        id: "mohn",
+        cat: "kuchen",
+        name: "Mohnschnecke",
+        desc: "Saftige Füllung, dünne Glasur.",
+        price: 360,
+        allergens: ["A", "G"],
+      },
+      {
+        id: "nuss",
+        cat: "kuchen",
+        name: "Nusszopf",
+        desc: "Haselnuss, ein Stück vom Zopf.",
+        price: 340,
+        allergens: ["A", "G", "H"],
+      },
+      {
+        id: "quiche",
+        cat: "herzhaft",
+        name: "Quiche Lorraine",
+        desc: "Speck, Lauch, kleiner Salat.",
+        price: 590,
+        allergens: ["A", "C", "G"],
+        image: photo.quiche,
+        today: true,
+      },
+      {
+        id: "ecke",
+        cat: "herzhaft",
+        name: "Käse-Laugenecke",
+        desc: "Allgäuer Bergkäse, Schnittlauch.",
+        price: 480,
+        allergens: ["A", "G"],
+      },
+      {
+        id: "semmel",
+        cat: "herzhaft",
+        name: "Schinkensemmel",
+        desc: "Gekochter Schinken, Gurke, Butter.",
+        price: 450,
+        allergens: ["A", "M"],
+      },
+      {
+        id: "suppe",
+        cat: "herzhaft",
+        name: "Tagessuppe",
+        desc: "Kürbis, Kernöl, Brot dazu.",
+        price: 650,
+        allergens: ["L"],
+      },
+      {
+        id: "schorle",
+        cat: "kalt",
+        name: "Apfelschorle",
+        desc: "Apfelsaft und Mineralwasser.",
+        price: 340,
+      },
+      {
+        id: "limo",
+        cat: "kalt",
+        name: "Zitronenlimo",
+        desc: "Selbst gemacht, wenig Zucker.",
+        price: 380,
+      },
+      {
+        id: "wasser",
+        cat: "kalt",
+        name: "Stilles Wasser",
+        desc: "0,4 Liter.",
+        price: 260,
+      },
+      {
+        id: "leitung",
+        cat: "kalt",
+        name: "Leitungswasser",
+        desc: "Karaffe an den Tisch.",
+        price: 0,
+      },
+    ];
+
+    let cart = [];
+    let receipt = null;
+    let nextNo = 18;
+    let seq = 1;
+    let draft = null;
+
+    const sheet = document.getElementById("sheet");
+    const menuEl = document.getElementById("menu");
+    const slipEl = document.getElementById("slip");
+    const live = document.getElementById("live");
+
+    const euro = (cents) => `${(cents / 100).toFixed(2).replace(".", ",")}\u00a0€`;
+    const priceText = (cents) => (cents === 0 ? "frei" : euro(cents));
+    const esc = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[ch]));
+
+    const itemById = (id) => items.find((item) => item.id === id);
+    const allergenWords = (codes) => (codes || []).map((code) => ALLERGENS[code]).join(", ");
+    const allergenShort = (codes) => (codes || []).join(" · ");
+
+    function defaults(item) {
+      const selected = {};
+      for (const group of item.options || []) {
+        const choice = group.choices.find((entry) => entry.default) || group.choices[0];
+        selected[group.id] = choice.id;
+      }
+      return selected;
+    }
+
+    function unitPrice(item, selected) {
+      let cents = item.price;
+      for (const group of item.options || []) {
+        const choice = group.choices.find((entry) => entry.id === selected[group.id]);
+        if (choice) cents += choice.price || 0;
+      }
+      return cents;
+    }
+
+    function allergensFor(item, selected) {
+      const codes = new Set(item.allergens || []);
+      for (const group of item.options || []) {
+        const choice = group.choices.find((entry) => entry.id === selected[group.id]);
+        for (const code of choice?.allergens || []) codes.add(code);
+      }
+      return [...codes];
+    }
+
+    function ticketNote(item, selected) {
+      const parts = [];
+      for (const group of item.options || []) {
+        const choice = group.choices.find((entry) => entry.id === selected[group.id]);
+        if (choice && !choice.silent) parts.push(choice.label);
+      }
+      return parts.join(" · ");
+    }
+
+    function lineView(line) {
+      const item = itemById(line.id);
+      const unit = unitPrice(item, line.selected);
+      return {
+        name: item.name,
+        note: ticketNote(item, line.selected),
+        qty: line.qty,
+        amount: unit * line.qty,
+      };
+    }
+
+    function thumb(item) {
+      if (item.image) return `<img src="${item.image}" alt="" />`;
+      return `<span class="mono" aria-hidden="true">${esc(item.name.slice(0, 1))}</span>`;
+    }
+
+    function featureCard(item) {
+      return `<button type="button" class="feature" data-action="open" data-id="${item.id}" ${item.soldOut ? "disabled" : ""}>
+        <img src="${item.image}" alt="" />
+        <span class="fn">
+          <span class="ft">${esc(item.name)}</span>
+          <span class="fp">${item.soldOut ? "aus" : priceText(item.price)}</span>
+        </span>
+        <span class="fd">${esc(item.soldOut ? "Heute aus" : item.desc)}</span>
+      </button>`;
+    }
+
+    function row(item) {
+      const codes = item.allergens || [];
+      return `<button type="button" class="item" data-action="open" data-id="${item.id}" ${item.soldOut ? "disabled" : ""}>
+        <span class="thumb">${thumb(item)}</span>
+        <span>
+          <span class="name">${esc(item.name)}${item.today ? '<span class="tag">Heute</span>' : ""}</span>
+          <span class="desc">${esc(item.desc)}</span>
+          ${codes.length ? `<span class="all">${esc(allergenShort(codes))}</span>` : ""}
+        </span>
+        <span class="price">${item.soldOut ? "aus" : priceText(item.price)}</span>
+      </button>`;
+    }
+
+    function renderMenu() {
+      const featured = items.filter((item) => item.feature).sort((a, b) => a.feature - b.feature);
+      document.getElementById("cats").innerHTML = categories.map((cat) =>
+        `<button type="button" data-action="nav" data-cat="${cat.id}">${esc(cat.label)}</button>`
+      ).join("");
+
+      const legend = Object.entries(ALLERGENS).map(([code, name]) => `${code} ${name}`).join(" · ");
+      menuEl.innerHTML = categories.map((cat) => {
+        const cards = cat.id === "backstube" ? featured.map(featureCard).join("") : "";
+        const rows = items.filter((item) => item.cat === cat.id && !item.featureOnly).map(row).join("");
+        return `<section class="section" id="${cat.id}">
+          <h2>${esc(cat.label)}</h2>
+          <p class="lead">${esc(cat.lead)}</p>
+          ${cards ? `<div class="features">${cards}</div>` : ""}
+          ${rows ? `<div class="rows">${rows}</div>` : ""}
+        </section>`;
+      }).join("") + `<p class="legend">${esc(legend)}. In der Backstube sind Spuren möglich. Bei einer Allergie fragen Sie an der Theke.</p>`;
+    }
+
+    function setCurrent(id) {
+      for (const button of document.querySelectorAll(".rail button")) {
+        if (button.dataset.cat === id) button.setAttribute("aria-current", "true");
+        else button.removeAttribute("aria-current");
+      }
+    }
+
+    function chipText(choice) {
+      if (!choice.price) return choice.label;
+      const sign = choice.price > 0 ? "+" : "−";
+      return `${choice.label} ${sign}${euro(Math.abs(choice.price))}`;
+    }
+
+    function renderSheet() {
+      const item = itemById(draft.id);
+      const unit = unitPrice(item, draft.selected);
+      const codes = allergensFor(item, draft.selected);
+      const groups = (item.options || []).map((group) => `
+        <fieldset>
+          <legend>${esc(group.label)}</legend>
+          <div class="choices">
+            ${group.choices.map((choice) => `
+              <button type="button" data-action="pick" data-group="${group.id}" data-choice="${choice.id}" aria-pressed="${draft.selected[group.id] === choice.id}">
+                ${esc(chipText(choice))}
+              </button>
+            `).join("")}
+          </div>
+        </fieldset>
+      `).join("");
+
+      sheet.innerHTML = `
+        <div class="sheet ${item.image ? "has-photo" : ""}">
+          ${item.image ? `<div class="sheet-photo"><img src="${item.image}" alt="" /></div>` : ""}
+          <div class="sheet-copy">
+            <div class="sheet-top">
+              <h2 id="sheet-title">${esc(item.name)}</h2>
+              <button type="button" data-action="close">Schließen</button>
+            </div>
+            <p class="desc">${esc(item.desc)}</p>
+            ${codes.length ? `<p class="all full">${esc(allergenWords(codes))}</p>` : `<p class="all full">Keine der 14 Kennzeichnungsallergene.</p>`}
+            ${groups}
+            <div class="sheet-actions">
+              <div class="stepper">
+                <button type="button" data-action="qty" data-dir="-1" aria-label="weniger">−</button>
+                <span>${draft.qty}</span>
+                <button type="button" data-action="qty" data-dir="1" aria-label="mehr">+</button>
+              </div>
+              <button type="button" class="add" data-action="add">Hinzufügen · ${priceText(unit * draft.qty)}</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function lineHtml(line, withStepper) {
+      const stepper = withStepper ? `
+        <span class="stepper">
+          <button type="button" data-action="dec" data-uid="${line.uid}" aria-label="weniger ${esc(line.name)}">−</button>
+          <span>${line.qty}</span>
+          <button type="button" data-action="inc" data-uid="${line.uid}" aria-label="mehr ${esc(line.name)}">+</button>
+        </span>
+      ` : `<span class="q">${line.qty}×</span>`;
+      return `<li>
+        ${stepper}
+        <span>
+          <span class="ln">${esc(line.name)}</span>
+          ${line.note ? `<span class="ld">${esc(line.note)}</span>` : ""}
+        </span>
+        <span class="lp">${priceText(line.amount)}</span>
+      </li>`;
+    }
+
+    function renderSlip() {
+      if (receipt) {
+        slipEl.innerHTML = `
+          <div class="slip-body">
+            <p class="kicker">An der Theke</p>
+            <h2 class="order-no">${receipt.no}</h2>
+            <p class="where">Tisch 7 · zahlen Sie an der Kasse</p>
+            <ul class="lines">
+              ${receipt.lines.map((line) => lineHtml(line, false)).join("")}
+            </ul>
+            <p class="total"><span>Summe</span><span>${euro(receipt.total)}</span></p>
+            <p class="bring">Wir bringen es an den Tisch.</p>
+          </div>
+          <div class="slip-foot">
+            <button type="button" class="send" data-action="reset">Neue Bestellung</button>
+          </div>
+        `;
+        return;
+      }
+
+      const lines = cart.map((line) => ({ uid: line.uid, ...lineView(line) }));
+      const total = lines.reduce((sum, line) => sum + line.amount, 0);
+      const count = lines.reduce((sum, line) => sum + line.qty, 0);
+      slipEl.innerHTML = `
+        <div class="slip-body">
+          <p class="kicker">Bestellung</p>
+          <h2 class="slip-title">${count ? `${count} gewählt` : "Noch leer"}</h2>
+          ${lines.length ? `
+            <ul class="lines">${lines.map((line) => lineHtml(line, true)).join("")}</ul>
+            <p class="total"><span>Summe</span><span>${euro(total)}</span></p>
+          ` : `
+            <ol class="how">
+              <li><span>1</span>Gericht wählen</li>
+              <li><span>2</span>An die Theke schicken</li>
+              <li><span>3</span>An der Kasse zahlen</li>
+            </ol>
+            <p class="how-note">Wir bringen alles an Tisch 7.</p>
+          `}
+        </div>
+        <div class="slip-foot">
+          <button type="button" class="send" data-action="send" ${lines.length ? "" : "disabled"}>An die Theke schicken</button>
+          <p class="fine">Gezahlt wird an der Kasse.</p>
+        </div>
+      `;
+    }
+
+    function say(text) {
+      live.textContent = "";
+      live.textContent = text;
+    }
+
+    function openItem(id) {
+      const item = itemById(id);
+      if (!item || item.soldOut) return;
+      if (receipt) {
+        receipt = null;
+        renderSlip();
+      }
+      draft = { id, qty: 1, selected: defaults(item) };
+      renderSheet();
+      if (!sheet.open) sheet.showModal();
+    }
+
+    function addDraft() {
+      const item = itemById(draft.id);
+      cart.push({
+        uid: `l${seq++}`,
+        id: item.id,
+        qty: draft.qty,
+        selected: { ...draft.selected },
+      });
+      say(`${item.name} hinzugefügt`);
+      draft = null;
+      sheet.close();
+      renderSlip();
+    }
+
+    function sendOrder() {
+      if (!cart.length) return;
+      const lines = cart.map(lineView);
+      receipt = {
+        no: nextNo++,
+        lines,
+        total: lines.reduce((sum, line) => sum + line.amount, 0),
+      };
+      cart = [];
+      say(`Bestellung ${receipt.no} ist an der Theke`);
+      renderSlip();
+    }
+
+    document.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-action]");
+      if (!button) return;
+      const action = button.dataset.action;
+      if (action === "nav") {
+        setCurrent(button.dataset.cat);
+        document.getElementById(button.dataset.cat)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (action === "open") {
+        openItem(button.dataset.id);
+      } else if (action === "pick") {
+        draft.selected[button.dataset.group] = button.dataset.choice;
+        renderSheet();
+        sheet.querySelector(`[data-choice="${button.dataset.choice}"]`)?.focus();
+      } else if (action === "qty") {
+        draft.qty = Math.max(1, Math.min(9, draft.qty + Number(button.dataset.dir)));
+        renderSheet();
+      } else if (action === "add") {
+        addDraft();
+      } else if (action === "close") {
+        sheet.close();
+      } else if (action === "inc" || action === "dec") {
+        const line = cart.find((entry) => entry.uid === button.dataset.uid);
+        if (!line) return;
+        line.qty += action === "inc" ? 1 : -1;
+        if (line.qty <= 0) cart = cart.filter((entry) => entry.uid !== line.uid);
+        else line.qty = Math.min(9, line.qty);
+        renderSlip();
+      } else if (action === "send") {
+        sendOrder();
+      } else if (action === "reset") {
+        receipt = null;
+        renderSlip();
+      }
+    });
+
+    sheet.addEventListener("click", (event) => {
+      if (event.target === sheet) sheet.close();
+    });
+    sheet.addEventListener("close", () => {
+      draft = null;
+    });
+
+    renderMenu();
+    renderSlip();
+    setCurrent("backstube");
+
+    const observer = new IntersectionObserver((entries) => {
+      const hit = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (hit) setCurrent(hit.target.id);
+    }, { root: menuEl, threshold: 0.35 });
+    for (const cat of categories) observer.observe(document.getElementById(cat.id));
+
+    const ansicht = new URLSearchParams(location.search).get("ansicht");
+    if (ansicht === "auswahl") {
+      openItem("cap");
+      draft.selected.size = "l";
+      draft.selected.milk = "hafer";
+      renderSheet();
+    } else if (ansicht === "zettel" || ansicht === "theke") {
+      cart = [
+        { uid: "l1", id: "cap", qty: 1, selected: { size: "l", milk: "hafer" } },
+        { uid: "l2", id: "lauge", qty: 1, selected: { butter: "mit" } },
+        { uid: "l3", id: "quiche", qty: 1, selected: {} },
+      ];
+      seq = 4;
+      if (ansicht === "theke") sendOrder();
+      else renderSlip();
+    }
+
+    if ("serviceWorker" in navigator && window.isSecureContext) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
+  </script>
+</body>
+</html>
