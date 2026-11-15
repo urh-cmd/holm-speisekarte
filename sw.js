@@ -1,15 +1,11 @@
-const CACHE = "holm-karte-1";
+const CACHE = "schmid-karte-1";
 const FILES = [
   "./index.html",
+  "./tokens.css",
+  "./base.css",
   "./sw.js",
-  "./fonts/fraunces.woff2",
-  "./fonts/outfit.woff2",
-  "./bilder/holm-cappuccino.jpg",
-  "./bilder/holm-croissant.jpg",
-  "./bilder/holm-pflaume.jpg",
-  "./bilder/holm-lauge.jpg",
-  "./bilder/holm-fruehstueck.jpg",
-  "./bilder/holm-quiche.jpg",
+  "./fonts/raleway-400.woff2",
+  "./fonts/raleway-600.woff2",
 ];
 
 self.addEventListener("install", (event) => {
