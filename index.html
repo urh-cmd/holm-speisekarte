@@ -165,6 +165,7 @@
       font-size: 28px;
       letter-spacing: -0.03em;
     }
+    .section h2.subhead { margin-top: 28px; }
     .lead { margin-top: 3px; color: var(--muted); font-size: 14px; }
     .features {
       display: grid;
@@ -202,9 +203,9 @@
       display: grid;
       grid-template-columns: 72px minmax(0, 1fr) auto;
       gap: 14px;
-      align-items: center;
+      align-items: start;
       width: 100%;
-      padding: 11px 4px;
+      padding: 14px 4px;
       border: 0;
       border-bottom: 1px solid var(--line);
       background: transparent;
@@ -232,27 +233,75 @@
       letter-spacing: -0.02em;
     }
     .desc { display: block; margin-top: 2px; color: var(--muted); font-size: 13.5px; }
-    .all {
-      display: block;
-      margin-top: 4px;
-      font-size: 11px;
-      letter-spacing: 0.08em;
-      color: var(--faint);
+    .parts {
+      list-style: none;
+      margin: 6px 0 0;
+      padding: 0;
     }
-    .price { font-variant-numeric: tabular-nums; font-size: 15px; }
-    .item:disabled .price {
-      color: var(--accent);
-      font-size: 12px;
-      letter-spacing: 0.04em;
-      text-transform: none;
+    .parts li {
+      position: relative;
+      margin: 0;
+      padding: 1px 0 1px 12px;
+      color: var(--muted);
+      font-size: 13.5px;
     }
-    .legend {
-      margin-top: 26px;
-      max-width: 68ch;
-      color: var(--faint);
-      font-size: 12px;
-      line-height: 1.55;
+    .parts li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: currentColor;
     }
+    .when { display: block; margin-top: 6px; color: var(--accent); font-size: 13px; }
+    .marks { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .marks span {
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #e7dfd2;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.4;
+    }
+    .price { font-variant-numeric: tabular-nums; font-size: 15px; padding-top: 3px; }
+    .item:disabled { color: var(--ink); }
+    .houses {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      margin-top: 14px;
+    }
+    .houses h3 { font-family: var(--serif); font-weight: 500; font-size: 18px; }
+    .houses p { margin-top: 2px; color: var(--muted); font-size: 13.5px; }
+    .hours { list-style: none; margin: 10px 0 0; padding: 0; }
+    .hours li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .hours li span:last-child { font-variant-numeric: tabular-nums; color: var(--muted); }
+    .key {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 22px;
+      margin: 12px 0 0;
+    }
+    .key div {
+      display: grid;
+      grid-template-columns: 1.6rem 1fr;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 13.5px;
+    }
+    .key dt { margin: 0; color: var(--muted); font-variant-numeric: tabular-nums; }
+    .key dd { margin: 0; }
+    .stand { margin-top: 16px; color: var(--faint); font-size: 12.5px; }
     aside {
       min-height: 0;
       display: flex;
@@ -358,7 +407,7 @@
     .sheet.has-photo { grid-template-columns: 268px minmax(0, 1fr); }
     .sheet-photo { position: relative; background: #e6ddcf; min-height: 240px; }
     .sheet-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .sheet-copy { padding: 20px 22px 18px; }
+    .sheet-copy { padding: 20px 22px 18px; overflow: auto; max-height: calc(100dvh - 72px); }
     .sheet-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .sheet-top h2 {
       font-family: var(--serif);
@@ -374,15 +423,14 @@
       padding: 0 2px;
     }
     .sheet-copy > .desc { margin: 6px 0 10px; color: var(--muted); }
-    .all.full { letter-spacing: 0; font-size: 13px; color: var(--muted); }
+    .sheet-copy .parts { margin-top: 12px; }
+    .sheet-copy .parts li { font-size: 15px; }
     fieldset { border: 0; margin: 14px 0 0; padding: 0; }
     legend {
       padding: 0;
       margin-bottom: 8px;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--faint);
+      font-size: 13px;
+      color: var(--muted);
     }
     .choices { display: flex; flex-wrap: wrap; gap: 8px; }
     .choices button {
@@ -475,21 +523,32 @@
   <div id="live" class="sr" aria-live="polite"></div>
   <script>
     const ADD = {
-      1: "mit Farbstoffen",
-      2: "mit Konservierungsstoffen",
+      1: "mit Farbstoff",
+      2: "mit Konservierungsstoff",
       3: "mit Antioxidationsmittel",
       4: "mit Geschmacksverstärker",
-      5: "mit Schwefeloxid",
+      5: "mit Schwefeldioxid",
       6: "mit Schwärzungsmittel",
       7: "mit Phosphat",
       8: "mit Milcheiweiß",
       9: "koffeinhaltig",
       10: "chininhaltig",
       11: "mit Süßungsmittel",
-      12: "Phenylalminquelle",
+      12: "Phenylalaninquelle",
       13: "gewachst",
-      14: "Taurin",
+      14: "mit Taurin",
       15: "mit Nitritpökelsalz",
+    };
+    const SHORT = {
+      1: "Farbstoff",
+      2: "Konservierung",
+      3: "Antioxidationsmittel",
+      4: "Geschmacksverstärker",
+      5: "Schwefel",
+      7: "Phosphat",
+      8: "Milcheiweiß",
+      9: "Koffein",
+      15: "Pökelsalz",
     };
 
     const photo = {
@@ -501,109 +560,109 @@
     };
 
     const categories = [
-      { id: "fruehstueck", label: "Frühstück", lead: "Heißgetränke extra. Stand 29. Januar 2022." },
-      { id: "dazu", label: "Dazu", lead: "Einzelne Zutaten zur Karte." },
+      { id: "fruehstueck", label: "Frühstück", lead: "Ohne Heißgetränk. Kaffee, Tee oder Kakao bitte extra." },
+      { id: "dazu", label: "Dazu", lead: "Zusätzlich zum Frühstück." },
       { id: "kuchen", label: "Kuchentheke", lead: "Vom Stück." },
-      { id: "heiss", label: "Heißgetränke", lead: "Kaffee klein und groß auch entkoffeiniert." },
-      { id: "tee", label: "Tee", lead: "Die Tasse 2,60 €." },
+      { id: "heiss", label: "Heißgetränke", lead: "Kaffee klein und groß auch ohne Koffein." },
+      { id: "tee", label: "Tee", lead: "Jede Sorte zum gleichen Preis." },
       { id: "kalt", label: "Getränke", lead: "Alle Säfte auch als Schorle, 0,5 l." },
-      { id: "alkohol", label: "Alkohol", lead: "Vom Glas und von der Flasche." },
-      { id: "wein", label: "Wein", lead: "Offen und als Flasche." },
+      { id: "alkohol", label: "Alkohol", lead: "" },
+      { id: "wein", label: "Wein", lead: "Glas 0,2 l, Flasche 0,75 l." },
     ];
 
     const items = [
-      { id: "morgen", cat: "fruehstueck", name: "„Guten Morgen“ Frühstück", desc: "1 Semmel, 1 Butter, 1 Fruchtaufstrich oder 1 Honig", price: 200, codes: [8] },
-      { id: "schmid", cat: "fruehstueck", name: "„Schmid“ Frühstück", desc: "Semmel, Mehrkornsemmel, Käse, Schinken, Salami, Aufstrich, Nutella, Butter", price: 650, codes: [1, 2, 3, 4, 8, 15], image: photo.frueh, feature: 1 },
-      { id: "spezial", cat: "fruehstueck", name: "„Schmid Spezial“ Frühstück", desc: "Semmel, Mehrkornsemmel, Kalbsleberwurst, Käse, Wurst, Müsli oder Obst, Orangensaft", price: 890, codes: [1, 2, 3, 4, 8, 15] },
-      { id: "maucher", cat: "fruehstueck", name: "„Maucher“ Frühstück", desc: "2 Semmel, Butter, Schinken, Salami, Kalbsleberwurst", price: 450, codes: [2, 7, 15] },
-      { id: "vital", cat: "fruehstueck", name: "„Vital“ Frühstück", desc: "Mehrkornsemmel, Sunnenweckle, Käse, Frischkäse, Müsli oder Obst, Orangensaft", price: 850, codes: [1, 3, 8] },
-      { id: "zwei", cat: "fruehstueck", name: "„Schlemmerei für Zwei“ Frühstück", desc: "Frühstück für zwei, wie auf der Karte", price: 2150, codes: [1, 2, 3, 4, 8, 15] },
-      { id: "storchen", cat: "fruehstueck", name: "„Storchen“ Frühstück", desc: "Semmel, Breze, Vollkornsemmel, Wurst, Käse, Tomate-Mozzarella", price: 890, codes: [1, 2, 3, 4, 5, 7, 8, 15] },
-      { id: "franzoesisch", cat: "fruehstueck", name: "„Französisches“ Frühstück", desc: "2 Croissants, Honig, Aufstrich, Butter, Orangensaft", price: 650, codes: [1, 2, 3, 8], image: photo.croissant },
-      { id: "bayerisch", cat: "fruehstueck", name: "„Bayerisches“ Frühstück", desc: "1 Paar Weißwürste, 1 Breze, süßer Senf", price: 490, codes: [4, 7], days: [5, 6] },
-      { id: "aufstrich", cat: "dazu", name: "Fruchtaufstrich", desc: "1 Portion", price: 90 },
-      { id: "honig", cat: "dazu", name: "Honig oder Nutella", desc: "1 Portion", price: 80, codes: [3, 8] },
-      { id: "butter", cat: "dazu", name: "Butter", desc: "1 Stück", price: 80 },
-      { id: "leberwurst", cat: "dazu", name: "Kalbsleberwurst", desc: "1 Stück", price: 90, codes: [2, 8] },
-      { id: "schinken", cat: "dazu", name: "Schinken, roh und gekocht", desc: "1 Portion", price: 210, codes: [2, 3, 15] },
-      { id: "salami", cat: "dazu", name: "Salami", desc: "1 Portion", price: 210, codes: [2, 3, 4] },
-      { id: "muesli", cat: "dazu", name: "Bircher Müsli", desc: "1 Portion", price: 290 },
-      { id: "obst", cat: "dazu", name: "Obstsalat", desc: "1 Portion", price: 270 },
-      { id: "kaese", cat: "dazu", name: "Käse", desc: "1 Portion", price: 210, codes: [1] },
-      { id: "frischkaese", cat: "dazu", name: "Frischkäse", desc: "1 Portion", price: 90 },
-      { id: "tomate", cat: "dazu", name: "Tomate-Mozzarella", desc: "1 Portion", price: 210, codes: [1, 3, 5, 8] },
-      { id: "lachs", cat: "dazu", name: "Lachs mit Sahnemeerrettich", desc: "1 Portion", price: 390, codes: [3] },
-      { id: "ruehrei", cat: "dazu", name: "Rührei mit Speck", desc: "1 Portion", price: 310 },
-      { id: "ei", cat: "dazu", name: "Gekochtes Ei", desc: "1 Stück", price: 120 },
-      { id: "oj", cat: "dazu", name: "Orangensaft, 0,2 l", desc: "Frisch gepresst", price: 250 },
-      { id: "semmel", cat: "dazu", name: "Semmel", desc: "1 Stück", price: 60 },
-      { id: "breze", cat: "dazu", name: "Breze", desc: "1 Stück", price: 100, image: photo.breze },
-      { id: "mehrkorn", cat: "dazu", name: "Mehrkornsemmel", desc: "1 Stück", price: 100 },
-      { id: "croissant", cat: "dazu", name: "Croissant", desc: "1 Stück", price: 160, image: photo.croissant, feature: 2 },
-      { id: "butterbreze", cat: "dazu", name: "Butterbreze", desc: "1 Stück", price: 180, image: photo.breze },
-      { id: "kuchen", cat: "kuchen", name: "Kuchen, gebacken", desc: "Vom Stück", price: 290 },
-      { id: "sahne", cat: "kuchen", name: "Sahnetorte", desc: "Vom Stück", price: 310 },
-      { id: "butterkrem", cat: "kuchen", name: "Butterkremtorte", desc: "Vom Stück", price: 310 },
-      { id: "prinz", cat: "kuchen", name: "Prinzregententorte", desc: "Vom Stück", price: 320 },
-      { id: "sacher", cat: "kuchen", name: "Sachertorte", desc: "Vom Stück", price: 310 },
-      { id: "obstkuchen", cat: "kuchen", name: "Obstkuchen", desc: "Vom Stück", price: 290, image: photo.kuchen, feature: 3 },
-      { id: "roulade", cat: "kuchen", name: "Sahne- oder Butterkremroulade", desc: "Vom Stück", price: 290 },
-      { id: "plunder", cat: "kuchen", name: "Plundergebäck", desc: "Vom Stück", price: 190 },
-      { id: "kaffee-klein", cat: "heiss", name: "Kaffee klein", desc: "Auch entkoffeiniert", price: 220, codes: [9], option: "koffein" },
-      { id: "kaffee-gross", cat: "heiss", name: "Kaffee groß", desc: "Auch entkoffeiniert", price: 290, codes: [9], option: "koffein" },
-      { id: "cap-klein", cat: "heiss", name: "Cappuccino klein", desc: "Tasse", price: 260, codes: [9], image: photo.cap },
-      { id: "cap-gross", cat: "heiss", name: "Cappuccino groß", desc: "Tasse", price: 340, codes: [9], image: photo.cap },
-      { id: "milchkaffee", cat: "heiss", name: "Milchkaffee", desc: "Tasse", price: 290, codes: [9] },
-      { id: "latte", cat: "heiss", name: "Latte Macchiato", desc: "Glas", price: 310, codes: [9] },
-      { id: "macchiato", cat: "heiss", name: "Espresso Macchiato", desc: "Kurze Tasse", price: 280, codes: [9] },
-      { id: "espresso", cat: "heiss", name: "Espresso", desc: "Kurze Tasse", price: 180, codes: [9] },
-      { id: "espresso-doppelt", cat: "heiss", name: "Espresso doppelt", desc: "Kurze Tasse", price: 290, codes: [9] },
-      { id: "schoko", cat: "heiss", name: "Heiße Schokolade", desc: "Tasse", price: 280 },
-      { id: "milch-honig", cat: "heiss", name: "Heiße Milch mit Honig", desc: "Tasse", price: 190 },
-      { id: "darjeeling", cat: "tee", name: "Darjeeling Royal Second Flash", desc: "Tasse", price: 260 },
-      { id: "assam", cat: "tee", name: "Assam Special Broken", desc: "Tasse", price: 260 },
-      { id: "gruen", cat: "tee", name: "Grüntee Asia Superior", desc: "Tasse", price: 260 },
-      { id: "kraeuter", cat: "tee", name: "Kräutergarten", desc: "Tasse", price: 260 },
-      { id: "minze", cat: "tee", name: "Pfefferminz", desc: "Tasse", price: 260 },
-      { id: "rooibos", cat: "tee", name: "Rooibas Vanilla", desc: "Tasse", price: 260 },
-      { id: "apfeltee", cat: "tee", name: "Apfel Früchte", desc: "Tasse", price: 260 },
-      { id: "beeren", cat: "tee", name: "Sommerbeeren", desc: "Tasse", price: 260 },
-      { id: "saison", cat: "tee", name: "Tee der Saison", desc: "Tasse", price: 260 },
-      { id: "orange7", cat: "tee", name: "Orange 7 Vitamine", desc: "Tasse", price: 260 },
-      { id: "kamille", cat: "tee", name: "Kamille", desc: "Tasse", price: 260 },
-      { id: "kamin", cat: "tee", name: "Kaminfeuer", desc: "Tasse", price: 260 },
-      { id: "cola", cat: "kalt", name: "Coca-Cola, 0,33 l", desc: "Flasche", price: 200, codes: [1, 9] },
-      { id: "fanta", cat: "kalt", name: "Fanta Orange, 0,33 l", desc: "Flasche", price: 200, codes: [1, 3] },
-      { id: "spezi", cat: "kalt", name: "Spezi Paulaner, 0,5 l", desc: "Flasche", price: 240, codes: [1, 3, 9] },
-      { id: "naturell", cat: "kalt", name: "Adelholzener Naturell, 0,3 l", desc: "Flasche", price: 200 },
-      { id: "classic", cat: "kalt", name: "Adelholzener Classic, 0,3 l", desc: "Flasche", price: 200 },
-      { id: "flasche", cat: "kalt", name: "Adelholzener, Flasche 0,75 l", desc: "Flasche", price: 350 },
-      { id: "apfelsaft", cat: "kalt", name: "Apfelsaft, klar, 0,2 l", desc: "Glas", price: 190 },
-      { id: "multi", cat: "kalt", name: "Multivitaminsaft, 0,2 l", desc: "Glas", price: 190 },
-      { id: "johannis", cat: "kalt", name: "Johannisbeer-Nektar, 0,2 l", desc: "Glas", price: 190 },
-      { id: "oj-karte", cat: "kalt", name: "Frisch gepresster Orangensaft, 0,2 l", desc: "Glas", price: 250 },
-      { id: "schorle", cat: "kalt", name: "Saftschorle, 0,5 l", desc: "Alle Säfte", price: 310 },
-      { id: "export", cat: "alkohol", name: "Export, Storchenbräu, 0,5 l", desc: "Glas", price: 280 },
-      { id: "hell", cat: "alkohol", name: "Bayrisch hell, Storchenbräu, 0,5 l", desc: "Glas", price: 280 },
-      { id: "weiss", cat: "alkohol", name: "Hefeweissbier, Franziskaner, 0,5 l", desc: "Glas", price: 290 },
-      { id: "weiss-frei", cat: "alkohol", name: "Hefeweissbier alkoholfrei, 0,5 l", desc: "Glas", price: 290 },
-      { id: "russ", cat: "alkohol", name: "Russ, 0,5 l", desc: "Glas", price: 290 },
-      { id: "radler", cat: "alkohol", name: "Radler, 0,5 l", desc: "Glas", price: 280 },
-      { id: "hugo", cat: "alkohol", name: "Hugo", desc: "Glas", price: 450 },
-      { id: "aperol", cat: "alkohol", name: "Aperol Spritz", desc: "Glas", price: 450 },
-      { id: "prosecco-glas", cat: "alkohol", name: "Prosecco Zonin, 0,1 l", desc: "Glas", price: 260 },
-      { id: "prosecco-flasche", cat: "alkohol", name: "Prosecco Zonin, 0,75 l", desc: "Flasche", price: 1400 },
-      { id: "sekt", cat: "alkohol", name: "Sekt-Orange, 0,2 l", desc: "Glas", price: 310 },
-      { id: "ramazzotti", cat: "alkohol", name: "Ramazzotti, 4 cl", desc: "Glas", price: 290 },
-      { id: "baileys", cat: "alkohol", name: "Baileys Original, 4 cl", desc: "Glas", price: 290 },
-      { id: "salz-likoer", cat: "alkohol", name: "Salzgeber Likör, 2 cl", desc: "Glas", price: 290 },
-      { id: "salz-brand", cat: "alkohol", name: "Salzgeber Brand, 2 cl", desc: "Glas", price: 290 },
-      { id: "merlot", cat: "wein", name: "Cavit Merlot Trentino, 0,2 l", desc: "Trocken, kräftig", price: 370 },
-      { id: "rot-lounge", cat: "wein", name: "Württenberg Cuvée Lounge rot, 0,2 l", desc: "Trocken, mild", price: 350 },
-      { id: "rot-flasche", cat: "wein", name: "Rotwein, Flasche 0,75 l", desc: "Flasche", price: 1100 },
-      { id: "pinot", cat: "wein", name: "Pinot Grigio, 0,2 l", desc: "Trocken, fruchtig", price: 350 },
-      { id: "weiss-lounge", cat: "wein", name: "Württenberg Cuvée Lounge weiß, 0,2 l", desc: "Halbtrocken, lebendig", price: 350 },
-      { id: "weiss-flasche", cat: "wein", name: "Weißwein, Flasche 0,75 l", desc: "Flasche", price: 1100 },
+      { id: "morgen", cat: "fruehstueck", name: "Guten Morgen", price: 200, codes: [8], parts: ["1 Semmel", "1 Butter", "Fruchtaufstrich oder Honig"] },
+      { id: "schmid", cat: "fruehstueck", name: "Schmid", price: 650, codes: [1, 2, 3, 4, 8, 15], image: photo.frueh, feature: 1, caption: "Semmel, Käse, Schinken und Aufstrich.", parts: ["1 Semmel", "1 Mehrkornsemmel", "Käsevariation", "Schinkenvariation", "Salami", "1 Fruchtaufstrich", "1 Nutella", "2 Butter"] },
+      { id: "spezial", cat: "fruehstueck", name: "Schmid Spezial", price: 890, codes: [1, 2, 3, 4, 8, 15], parts: ["1 Semmel", "1 Mehrkornsemmel", "1 Butter", "1 Kalbsleberwurst", "Käsevariation", "Kleine Wurstvariation", "Bircher Müsli oder Obstsalat", "1 Glas frisch gepresster Orangensaft", "Fruchtaufstrich"] },
+      { id: "maucher", cat: "fruehstueck", name: "Maucher", price: 450, codes: [2, 7, 15], parts: ["2 Semmeln", "1 Butter", "Schinken", "Salami", "1 Kalbsleberwurst"] },
+      { id: "vital", cat: "fruehstueck", name: "Vital", price: 850, codes: [1, 3, 8], parts: ["1 Mehrkornsemmel", "1 Sunnenweckle", "1 Butter", "Käsevariation", "Frischkäse", "Bircher Müsli oder Obstsalat", "1 Glas frisch gepresster Orangensaft", "Fruchtaufstrich"] },
+      { id: "zwei", cat: "fruehstueck", name: "Schlemmerei für zwei", price: 2150, codes: [1, 2, 3, 4, 8, 15], parts: ["1 Croissant", "2 Semmeln", "1 Mehrkornsemmel", "1 Breze", "Schinkenvariation", "Käsevariation", "Salami", "Fruchtaufstrich", "3 Butter", "Räucherlachs", "Frischkäse", "Rührei mit Speck oder 2 gekochte Eier", "Tomate-Mozzarella", "Gefüllte Antipasti", "2 Gläser Orangensaft oder 2 Prosecco", "2 Bircher Müsli oder Obstsalat", "Melonenschiffchen"] },
+      { id: "storchen", cat: "fruehstueck", name: "Storchen", price: 890, codes: [1, 2, 3, 4, 5, 7, 8, 15], parts: ["1 Semmel", "1 Breze", "1 Vollkornsemmel", "Schinkenvariation", "Salami", "Käsevariation", "Fruchtaufstrich", "Frischwurst", "2 Butter", "Tomate-Mozzarella"] },
+      { id: "franzoesisch", cat: "fruehstueck", name: "Französisches Frühstück", price: 650, codes: [1, 2, 3, 8], image: photo.croissant, parts: ["2 Croissants", "Honig", "Fruchtaufstrich", "1 Butter", "1 Glas frisch gepresster Orangensaft"] },
+      { id: "bayerisch", cat: "fruehstueck", name: "Bayerisches Frühstück", price: 490, codes: [4, 7], days: [5, 6], parts: ["1 Paar Weißwürste", "1 Breze", "Süßer Senf"] },
+      { id: "aufstrich", cat: "dazu", name: "Fruchtaufstrich", price: 90, size: "eine Portion" },
+      { id: "honig", cat: "dazu", name: "Honig oder Nutella", price: 80, codes: [3, 8], size: "eine Portion" },
+      { id: "butter", cat: "dazu", name: "Butter", price: 80, size: "ein Stück" },
+      { id: "leberwurst", cat: "dazu", name: "Kalbsleberwurst", price: 90, codes: [2, 8], size: "ein Stück" },
+      { id: "schinken", cat: "dazu", name: "Schinken, roh und gekocht", price: 210, codes: [2, 3, 15], size: "eine Portion" },
+      { id: "salami", cat: "dazu", name: "Salami", price: 210, codes: [2, 3, 4], size: "eine Portion" },
+      { id: "muesli", cat: "dazu", name: "Bircher Müsli", price: 290, size: "eine Portion" },
+      { id: "obst", cat: "dazu", name: "Obstsalat", price: 270, size: "eine Portion" },
+      { id: "kaese", cat: "dazu", name: "Käse", price: 210, codes: [1], size: "eine Portion" },
+      { id: "frischkaese", cat: "dazu", name: "Frischkäse", price: 90, size: "eine Portion" },
+      { id: "tomate", cat: "dazu", name: "Tomate-Mozzarella", price: 210, codes: [1, 3, 5, 8], size: "eine Portion" },
+      { id: "lachs", cat: "dazu", name: "Lachs mit Sahnemeerrettich", price: 390, codes: [3], size: "eine Portion" },
+      { id: "ruehrei", cat: "dazu", name: "Rührei mit Speck", price: 310, size: "eine Portion" },
+      { id: "ei", cat: "dazu", name: "Gekochtes Ei", price: 120, size: "ein Stück" },
+      { id: "oj", cat: "dazu", name: "Orangensaft, frisch gepresst", price: 250, size: "0,2 l" },
+      { id: "semmel", cat: "dazu", name: "Semmel", price: 60, size: "ein Stück" },
+      { id: "breze", cat: "dazu", name: "Breze", price: 100, size: "ein Stück", image: photo.breze },
+      { id: "mehrkorn", cat: "dazu", name: "Mehrkornsemmel", price: 100, size: "ein Stück" },
+      { id: "croissant", cat: "dazu", name: "Croissant", price: 160, size: "ein Stück", image: photo.croissant, feature: 2, caption: "Ein Stück." },
+      { id: "butterbreze", cat: "dazu", name: "Butterbreze", price: 180, size: "ein Stück" },
+      { id: "kuchen", cat: "kuchen", name: "Kuchen, gebacken", price: 290 },
+      { id: "sahne", cat: "kuchen", name: "Sahnetorte", price: 310 },
+      { id: "butterkrem", cat: "kuchen", name: "Butterkremtorte", price: 310 },
+      { id: "prinz", cat: "kuchen", name: "Prinzregententorte", price: 320 },
+      { id: "sacher", cat: "kuchen", name: "Sachertorte", price: 310 },
+      { id: "obstkuchen", cat: "kuchen", name: "Obstkuchen", price: 290, image: photo.kuchen, feature: 3, caption: "Vom Stück." },
+      { id: "roulade", cat: "kuchen", name: "Sahne- oder Butterkremroulade", price: 290 },
+      { id: "plunder", cat: "kuchen", name: "Plundergebäck", price: 190 },
+      { id: "kaffee-klein", cat: "heiss", name: "Kaffee klein", price: 220, codes: [9], option: "koffein", hint: "auch ohne Koffein" },
+      { id: "kaffee-gross", cat: "heiss", name: "Kaffee groß", price: 290, codes: [9], option: "koffein", hint: "auch ohne Koffein" },
+      { id: "cap-klein", cat: "heiss", name: "Cappuccino klein", price: 260, codes: [9] },
+      { id: "cap-gross", cat: "heiss", name: "Cappuccino groß", price: 340, codes: [9], image: photo.cap },
+      { id: "milchkaffee", cat: "heiss", name: "Milchkaffee", price: 290, codes: [9] },
+      { id: "latte", cat: "heiss", name: "Latte Macchiato", price: 310, codes: [9] },
+      { id: "macchiato", cat: "heiss", name: "Espresso Macchiato", price: 280, codes: [9] },
+      { id: "espresso", cat: "heiss", name: "Espresso", price: 180, codes: [9] },
+      { id: "espresso-doppelt", cat: "heiss", name: "Espresso doppelt", price: 290, codes: [9] },
+      { id: "schoko", cat: "heiss", name: "Heiße Schokolade", price: 280 },
+      { id: "milch-honig", cat: "heiss", name: "Heiße Milch mit Honig", price: 190 },
+      { id: "darjeeling", cat: "tee", name: "Darjeeling Royal Second Flash", price: 260 },
+      { id: "assam", cat: "tee", name: "Assam Special Broken", price: 260 },
+      { id: "gruen", cat: "tee", name: "Grüntee Asia Superior", price: 260 },
+      { id: "kraeuter", cat: "tee", name: "Kräutergarten", price: 260 },
+      { id: "minze", cat: "tee", name: "Pfefferminz", price: 260 },
+      { id: "rooibos", cat: "tee", name: "Rooibos Vanilla", price: 260 },
+      { id: "apfeltee", cat: "tee", name: "Apfel Früchte", price: 260 },
+      { id: "beeren", cat: "tee", name: "Sommerbeeren", price: 260 },
+      { id: "saison", cat: "tee", name: "Tee der Saison", price: 260 },
+      { id: "orange7", cat: "tee", name: "Orange 7 Vitamine", price: 260 },
+      { id: "kamille", cat: "tee", name: "Kamille", price: 260 },
+      { id: "kamin", cat: "tee", name: "Kaminfeuer", price: 260 },
+      { id: "cola", cat: "kalt", name: "Coca-Cola", size: "0,33 l", price: 200, codes: [1, 9] },
+      { id: "fanta", cat: "kalt", name: "Fanta Orange", size: "0,33 l", price: 200, codes: [1, 3] },
+      { id: "spezi", cat: "kalt", name: "Spezi Paulaner", size: "0,5 l", price: 240, codes: [1, 3, 9] },
+      { id: "naturell", cat: "kalt", name: "Adelholzener, naturell", size: "0,3 l", price: 200 },
+      { id: "classic", cat: "kalt", name: "Adelholzener, classic", size: "0,3 l", price: 200 },
+      { id: "flasche", cat: "kalt", name: "Adelholzener", size: "Flasche 0,75 l", price: 350 },
+      { id: "apfelsaft", cat: "kalt", name: "Apfelsaft, klar", size: "0,2 l", price: 190 },
+      { id: "multi", cat: "kalt", name: "Multivitaminsaft", size: "0,2 l", price: 190 },
+      { id: "johannis", cat: "kalt", name: "Johannisbeer-Nektar", size: "0,2 l", price: 190 },
+      { id: "oj-karte", cat: "kalt", name: "Orangensaft, frisch gepresst", size: "0,2 l", price: 250 },
+      { id: "schorle", cat: "kalt", name: "Saftschorle", size: "0,5 l", hint: "jeder Saft", price: 310 },
+      { id: "export", cat: "alkohol", name: "Export, Storchenbräu", size: "0,5 l", price: 280 },
+      { id: "hell", cat: "alkohol", name: "Bayrisch Hell, Storchenbräu", size: "0,5 l", price: 280 },
+      { id: "weiss", cat: "alkohol", name: "Hefeweißbier, Franziskaner", size: "0,5 l", price: 290 },
+      { id: "weiss-frei", cat: "alkohol", name: "Hefeweißbier, alkoholfrei", size: "0,5 l", price: 290 },
+      { id: "russ", cat: "alkohol", name: "Russ", size: "0,5 l", price: 290 },
+      { id: "radler", cat: "alkohol", name: "Radler", size: "0,5 l", price: 280 },
+      { id: "hugo", cat: "alkohol", name: "Hugo", price: 450 },
+      { id: "aperol", cat: "alkohol", name: "Aperol Spritz", price: 450 },
+      { id: "prosecco-glas", cat: "alkohol", name: "Prosecco, Zonin", size: "0,1 l", price: 260 },
+      { id: "prosecco-flasche", cat: "alkohol", name: "Prosecco, Zonin", size: "Flasche 0,75 l", price: 1400 },
+      { id: "sekt", cat: "alkohol", name: "Sekt-Orange", size: "0,2 l", price: 310 },
+      { id: "ramazzotti", cat: "alkohol", name: "Ramazzotti", size: "4 cl", price: 290 },
+      { id: "baileys", cat: "alkohol", name: "Baileys Original", size: "4 cl", price: 290 },
+      { id: "salz-likoer", cat: "alkohol", name: "Salzgeber Likör", size: "2 cl", price: 290 },
+      { id: "salz-brand", cat: "alkohol", name: "Salzgeber Brand", size: "2 cl", price: 290 },
+      { id: "merlot", cat: "wein", name: "Cavit Merlot, Trentino", size: "0,2 l", hint: "trocken, kräftig", price: 370 },
+      { id: "rot-lounge", cat: "wein", name: "Württemberg Cuvée Lounge, rot", size: "0,2 l", hint: "trocken, mild", price: 350 },
+      { id: "rot-flasche", cat: "wein", name: "Rotwein", size: "Flasche 0,75 l", price: 1100 },
+      { id: "pinot", cat: "wein", name: "Pinot Grigio, Venetien", size: "0,2 l", hint: "trocken, fruchtig", price: 350 },
+      { id: "weiss-lounge", cat: "wein", name: "Württemberg Cuvée Lounge, weiß", size: "0,2 l", hint: "halbtrocken, lebendig", price: 350 },
+      { id: "weiss-flasche", cat: "wein", name: "Weißwein", size: "Flasche 0,75 l", price: 1100 },
     ];
 
     let cart = [];
@@ -659,48 +718,90 @@
       return `<span class="mono" aria-hidden="true">${esc(item.name.replace(/^[„"]/, "").slice(0, 1))}</span>`;
     }
 
+    function marks(codes) {
+      if (!codes || !codes.length) return "";
+      return `<span class="marks">${codes.map((code) => `<span>${code} ${esc(SHORT[code] || ADD[code])}</span>`).join("")}</span>`;
+    }
+
+    function partList(parts) {
+      if (!parts || !parts.length) return "";
+      return `<ul class="parts">${parts.map((part) => `<li>${esc(part)}</li>`).join("")}</ul>`;
+    }
+
+    function meta(item) {
+      const bits = [item.size, item.hint].filter(Boolean);
+      return bits.length ? `<span class="desc">${esc(bits.join(", "))}</span>` : "";
+    }
+
     function featureCard(item) {
-      const off = closedToday(item);
-      return `<button type="button" class="feature" data-action="open" data-id="${item.id}" ${off ? "disabled" : ""}>
+      return `<button type="button" class="feature" data-action="open" data-id="${item.id}">
         <img src="${item.image}" alt="" />
         <span class="fn">
           <span class="ft">${esc(item.name)}</span>
-          <span class="fp">${off ? "Freitag, Samstag" : euro(item.price)}</span>
+          <span class="fp">${euro(item.price)}</span>
         </span>
-        <span class="fd">${esc(item.desc)}</span>
+        ${item.caption ? `<span class="fd">${esc(item.caption)}</span>` : ""}
       </button>`;
     }
 
     function row(item) {
       const off = closedToday(item);
-      const codes = item.codes || [];
       return `<button type="button" class="item" data-action="open" data-id="${item.id}" ${off ? "disabled" : ""}>
         <span class="thumb">${thumb(item)}</span>
         <span>
           <span class="name">${esc(item.name)}</span>
-          <span class="desc">${esc(item.desc)}</span>
-          ${codes.length ? `<span class="all">${codes.join(", ")}</span>` : ""}
+          ${meta(item)}
+          ${partList(item.parts)}
+          ${off ? `<span class="when">Nur Freitag und Samstag</span>` : ""}
+          ${marks(item.codes)}
         </span>
-        <span class="price">${off ? "Freitag, Samstag" : euro(item.price)}</span>
+        <span class="price">${euro(item.price)}</span>
       </button>`;
     }
 
     function renderMenu() {
-      document.getElementById("cats").innerHTML = categories.map((cat) =>
+      const nav = [...categories, { id: "zeiten", label: "Zeiten" }];
+      document.getElementById("cats").innerHTML = nav.map((cat) =>
         `<button type="button" data-action="nav" data-cat="${cat.id}">${esc(cat.label)}</button>`
       ).join("");
       const featured = items.filter((item) => item.feature).sort((a, b) => a.feature - b.feature);
-      const legend = Object.entries(ADD).map(([code, name]) => `${code} ${name}`).join(". ");
+      const key = Object.entries(ADD).map(([code, name]) => `<div><dt>${code}</dt><dd>${esc(name)}</dd></div>`).join("");
       menuEl.innerHTML = categories.map((cat) => {
         const cards = cat.id === "fruehstueck" ? featured.map(featureCard).join("") : "";
-        const rows = items.filter((item) => item.cat === cat.id && !(cat.id === "fruehstueck" && item.feature)).map(row).join("");
+        const rows = items.filter((item) => item.cat === cat.id).map(row).join("");
         return `<section class="section" id="${cat.id}">
           <h2>${esc(cat.label)}</h2>
-          <p class="lead">${esc(cat.lead)}</p>
+          ${cat.lead ? `<p class="lead">${esc(cat.lead)}</p>` : ""}
           ${cards ? `<div class="features">${cards}</div>` : ""}
           <div class="rows">${rows}</div>
         </section>`;
-      }).join("") + `<p class="legend">${esc(legend)}. Café Pfaffenhausen, Hauptstraße 17: Montag bis Freitag 6 bis 17:30, Samstag 6 bis 12, Sonntag zu. Stammhaus Stetten, Hauptstraße 24: Montag bis Freitag 6 bis 12:30 und 14 bis 18, Samstag 6:15 bis 12, Sonntag zu. Die Preise sind die veröffentlichte Café-Karte.</p>`;
+      }).join("") + `<section class="section" id="zeiten">
+        <h2>Öffnungszeiten</h2>
+        <div class="houses">
+          <div>
+            <h3>Café Pfaffenhausen</h3>
+            <p>Hauptstraße 17<br>08265 7338860</p>
+            <ul class="hours">
+              <li><span>Montag bis Freitag</span><span>6:00 bis 17:30</span></li>
+              <li><span>Samstag</span><span>6:00 bis 12:00</span></li>
+              <li><span>Sonntag</span><span>geschlossen</span></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Stammhaus Stetten</h3>
+            <p>Hauptstraße 24<br>08261 9371</p>
+            <ul class="hours">
+              <li><span>Montag bis Freitag</span><span>6:00 bis 12:30, 14:00 bis 18:00</span></li>
+              <li><span>Samstag</span><span>6:15 bis 12:00</span></li>
+              <li><span>Sonntag</span><span>geschlossen</span></li>
+            </ul>
+          </div>
+        </div>
+        <h2 class="subhead">Zusatzstoffe</h2>
+        <p class="lead">Die Zahl steht auf der Karte neben dem Gericht.</p>
+        <dl class="key">${key}</dl>
+        <p class="stand">Preise der veröffentlichten Café-Karte, Stand 29. Januar 2022. Für Stetten liegt keine eigene Preisliste vor.</p>
+      </section>`;
     }
 
     function setCurrent(id) {
@@ -713,7 +814,6 @@
     function renderSheet() {
       const item = itemById(draft.id);
       const picked = extra(item, draft.selected);
-      const words = picked.codes.map((code) => ADD[code]).filter(Boolean).join(", ");
       const koffein = item.option === "koffein" ? `
         <fieldset>
           <legend>Koffein</legend>
@@ -730,8 +830,10 @@
               <h2 id="sheet-title">${esc(item.name)}</h2>
               <button type="button" data-action="close">Schließen</button>
             </div>
-            <p class="desc">${esc(item.desc)}</p>
-            ${words ? `<p class="all full">${esc(words)}</p>` : ""}
+            ${meta(item)}
+            ${partList(item.parts)}
+            ${item.days ? `<p class="when">Nur Freitag und Samstag</p>` : ""}
+            ${marks(picked.codes)}
             ${koffein}
             <div class="sheet-actions">
               <div class="stepper">
@@ -898,7 +1000,7 @@
         .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (hit) setCurrent(hit.target.id);
     }, { root: menuEl, threshold: 0.35 });
-    for (const cat of categories) observer.observe(document.getElementById(cat.id));
+    for (const id of [...categories.map((cat) => cat.id), "zeiten"]) observer.observe(document.getElementById(id));
 
     if ("serviceWorker" in navigator && window.isSecureContext) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
