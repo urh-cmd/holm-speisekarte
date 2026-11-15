@@ -1,4 +1,4 @@
-const CACHE = "schmid-karte-6";
+const CACHE = "schmid-karte-7";
 const FILES = [
   "./index.html",
   "./sw.js",
@@ -13,6 +13,14 @@ const FILES = [
   "./bilder/holm-fruehstueck.jpg",
   "./bilder/holm-lauge.jpg",
   "./bilder/holm-pflaume.jpg",
+  "./bilder/bayerisch.jpg",
+  "./bilder/muesli.jpg",
+  "./bilder/prinzregent.jpg",
+  "./bilder/espresso.jpg",
+  "./bilder/minze.jpg",
+  "./bilder/orangensaft.jpg",
+  "./bilder/weissbier.jpg",
+  "./bilder/weisswein.jpg",
 ];
 
 self.addEventListener("install", (event) => {

@@ -203,9 +203,9 @@
       display: grid;
       grid-template-columns: 72px minmax(0, 1fr) auto;
       gap: 14px;
-      align-items: start;
+      align-items: center;
       width: 100%;
-      padding: 14px 4px;
+      padding: 12px 4px;
       border: 0;
       border-bottom: 1px solid var(--line);
       background: transparent;
@@ -233,27 +233,12 @@
       letter-spacing: -0.02em;
     }
     .desc { display: block; margin-top: 2px; color: var(--muted); font-size: 13.5px; }
-    .parts {
-      list-style: none;
-      margin: 6px 0 0;
-      padding: 0;
-    }
-    .parts li {
-      position: relative;
-      margin: 0;
-      padding: 1px 0 1px 12px;
-      color: var(--muted);
-      font-size: 13.5px;
-    }
-    .parts li::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0.55em;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: currentColor;
+    .desc.short {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
     }
     .when { display: block; margin-top: 6px; color: var(--accent); font-size: 13px; }
     .marks { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
@@ -422,9 +407,7 @@
       min-height: 44px;
       padding: 0 2px;
     }
-    .sheet-copy > .desc { margin: 6px 0 10px; color: var(--muted); }
-    .sheet-copy .parts { margin-top: 12px; }
-    .sheet-copy .parts li { font-size: 15px; }
+    .sheet-copy > .desc { margin: 8px 0 0; color: var(--muted); font-size: 15px; line-height: 1.45; }
     fieldset { border: 0; margin: 14px 0 0; padding: 0; }
     legend {
       padding: 0;
@@ -579,14 +562,14 @@
       { id: "zwei", cat: "fruehstueck", name: "Schlemmerei für zwei", price: 2150, codes: [1, 2, 3, 4, 8, 15], parts: ["1 Croissant", "2 Semmeln", "1 Mehrkornsemmel", "1 Breze", "Schinkenvariation", "Käsevariation", "Salami", "Fruchtaufstrich", "3 Butter", "Räucherlachs", "Frischkäse", "Rührei mit Speck oder 2 gekochte Eier", "Tomate-Mozzarella", "Gefüllte Antipasti", "2 Gläser Orangensaft oder 2 Prosecco", "2 Bircher Müsli oder Obstsalat", "Melonenschiffchen"] },
       { id: "storchen", cat: "fruehstueck", name: "Storchen", price: 890, codes: [1, 2, 3, 4, 5, 7, 8, 15], parts: ["1 Semmel", "1 Breze", "1 Vollkornsemmel", "Schinkenvariation", "Salami", "Käsevariation", "Fruchtaufstrich", "Frischwurst", "2 Butter", "Tomate-Mozzarella"] },
       { id: "franzoesisch", cat: "fruehstueck", name: "Französisches Frühstück", price: 650, codes: [1, 2, 3, 8], image: photo.croissant, parts: ["2 Croissants", "Honig", "Fruchtaufstrich", "1 Butter", "1 Glas frisch gepresster Orangensaft"] },
-      { id: "bayerisch", cat: "fruehstueck", name: "Bayerisches Frühstück", price: 490, codes: [4, 7], days: [5, 6], parts: ["1 Paar Weißwürste", "1 Breze", "Süßer Senf"] },
+      { id: "bayerisch", cat: "fruehstueck", name: "Bayerisches Frühstück", price: 490, codes: [4, 7], days: [5, 6], image: "bilder/bayerisch.jpg", parts: ["1 Paar Weißwürste", "1 Breze", "Süßer Senf"] },
       { id: "aufstrich", cat: "dazu", name: "Fruchtaufstrich", price: 90, size: "eine Portion" },
       { id: "honig", cat: "dazu", name: "Honig oder Nutella", price: 80, codes: [3, 8], size: "eine Portion" },
       { id: "butter", cat: "dazu", name: "Butter", price: 80, size: "ein Stück" },
       { id: "leberwurst", cat: "dazu", name: "Kalbsleberwurst", price: 90, codes: [2, 8], size: "ein Stück" },
       { id: "schinken", cat: "dazu", name: "Schinken, roh und gekocht", price: 210, codes: [2, 3, 15], size: "eine Portion" },
       { id: "salami", cat: "dazu", name: "Salami", price: 210, codes: [2, 3, 4], size: "eine Portion" },
-      { id: "muesli", cat: "dazu", name: "Bircher Müsli", price: 290, size: "eine Portion" },
+      { id: "muesli", cat: "dazu", name: "Bircher Müsli", price: 290, size: "eine Portion", image: "bilder/muesli.jpg" },
       { id: "obst", cat: "dazu", name: "Obstsalat", price: 270, size: "eine Portion" },
       { id: "kaese", cat: "dazu", name: "Käse", price: 210, codes: [1], size: "eine Portion" },
       { id: "frischkaese", cat: "dazu", name: "Frischkäse", price: 90, size: "eine Portion" },
@@ -603,7 +586,7 @@
       { id: "kuchen", cat: "kuchen", name: "Kuchen, gebacken", price: 290 },
       { id: "sahne", cat: "kuchen", name: "Sahnetorte", price: 310 },
       { id: "butterkrem", cat: "kuchen", name: "Butterkremtorte", price: 310 },
-      { id: "prinz", cat: "kuchen", name: "Prinzregententorte", price: 320 },
+      { id: "prinz", cat: "kuchen", name: "Prinzregententorte", price: 320, image: "bilder/prinzregent.jpg" },
       { id: "sacher", cat: "kuchen", name: "Sachertorte", price: 310 },
       { id: "obstkuchen", cat: "kuchen", name: "Obstkuchen", price: 290, image: photo.kuchen, feature: 3, caption: "Vom Stück." },
       { id: "roulade", cat: "kuchen", name: "Sahne- oder Butterkremroulade", price: 290 },
@@ -615,7 +598,7 @@
       { id: "milchkaffee", cat: "heiss", name: "Milchkaffee", price: 290, codes: [9] },
       { id: "latte", cat: "heiss", name: "Latte Macchiato", price: 310, codes: [9] },
       { id: "macchiato", cat: "heiss", name: "Espresso Macchiato", price: 280, codes: [9] },
-      { id: "espresso", cat: "heiss", name: "Espresso", price: 180, codes: [9] },
+      { id: "espresso", cat: "heiss", name: "Espresso", price: 180, codes: [9], image: "bilder/espresso.jpg" },
       { id: "espresso-doppelt", cat: "heiss", name: "Espresso doppelt", price: 290, codes: [9] },
       { id: "schoko", cat: "heiss", name: "Heiße Schokolade", price: 280 },
       { id: "milch-honig", cat: "heiss", name: "Heiße Milch mit Honig", price: 190 },
@@ -623,7 +606,7 @@
       { id: "assam", cat: "tee", name: "Assam Special Broken", price: 260 },
       { id: "gruen", cat: "tee", name: "Grüntee Asia Superior", price: 260 },
       { id: "kraeuter", cat: "tee", name: "Kräutergarten", price: 260 },
-      { id: "minze", cat: "tee", name: "Pfefferminz", price: 260 },
+      { id: "minze", cat: "tee", name: "Pfefferminz", price: 260, image: "bilder/minze.jpg" },
       { id: "rooibos", cat: "tee", name: "Rooibos Vanilla", price: 260 },
       { id: "apfeltee", cat: "tee", name: "Apfel Früchte", price: 260 },
       { id: "beeren", cat: "tee", name: "Sommerbeeren", price: 260 },
@@ -640,11 +623,11 @@
       { id: "apfelsaft", cat: "kalt", name: "Apfelsaft, klar", size: "0,2 l", price: 190 },
       { id: "multi", cat: "kalt", name: "Multivitaminsaft", size: "0,2 l", price: 190 },
       { id: "johannis", cat: "kalt", name: "Johannisbeer-Nektar", size: "0,2 l", price: 190 },
-      { id: "oj-karte", cat: "kalt", name: "Orangensaft, frisch gepresst", size: "0,2 l", price: 250 },
+      { id: "oj-karte", cat: "kalt", name: "Orangensaft, frisch gepresst", size: "0,2 l", price: 250, image: "bilder/orangensaft.jpg" },
       { id: "schorle", cat: "kalt", name: "Saftschorle", size: "0,5 l", hint: "jeder Saft", price: 310 },
       { id: "export", cat: "alkohol", name: "Export, Storchenbräu", size: "0,5 l", price: 280 },
       { id: "hell", cat: "alkohol", name: "Bayrisch Hell, Storchenbräu", size: "0,5 l", price: 280 },
-      { id: "weiss", cat: "alkohol", name: "Hefeweißbier, Franziskaner", size: "0,5 l", price: 290 },
+      { id: "weiss", cat: "alkohol", name: "Hefeweißbier, Franziskaner", size: "0,5 l", price: 290, image: "bilder/weissbier.jpg" },
       { id: "weiss-frei", cat: "alkohol", name: "Hefeweißbier, alkoholfrei", size: "0,5 l", price: 290 },
       { id: "russ", cat: "alkohol", name: "Russ", size: "0,5 l", price: 290 },
       { id: "radler", cat: "alkohol", name: "Radler", size: "0,5 l", price: 280 },
@@ -660,7 +643,7 @@
       { id: "merlot", cat: "wein", name: "Cavit Merlot, Trentino", size: "0,2 l", hint: "trocken, kräftig", price: 370 },
       { id: "rot-lounge", cat: "wein", name: "Württemberg Cuvée Lounge, rot", size: "0,2 l", hint: "trocken, mild", price: 350 },
       { id: "rot-flasche", cat: "wein", name: "Rotwein", size: "Flasche 0,75 l", price: 1100 },
-      { id: "pinot", cat: "wein", name: "Pinot Grigio, Venetien", size: "0,2 l", hint: "trocken, fruchtig", price: 350 },
+      { id: "pinot", cat: "wein", name: "Pinot Grigio, Venetien", size: "0,2 l", hint: "trocken, fruchtig", price: 350, image: "bilder/weisswein.jpg" },
       { id: "weiss-lounge", cat: "wein", name: "Württemberg Cuvée Lounge, weiß", size: "0,2 l", hint: "halbtrocken, lebendig", price: 350 },
       { id: "weiss-flasche", cat: "wein", name: "Weißwein", size: "Flasche 0,75 l", price: 1100 },
     ];
@@ -723,14 +706,9 @@
       return `<span class="marks">${codes.map((code) => `<span>${code} ${esc(SHORT[code] || ADD[code])}</span>`).join("")}</span>`;
     }
 
-    function partList(parts) {
-      if (!parts || !parts.length) return "";
-      return `<ul class="parts">${parts.map((part) => `<li>${esc(part)}</li>`).join("")}</ul>`;
-    }
-
-    function meta(item) {
-      const bits = [item.size, item.hint].filter(Boolean);
-      return bits.length ? `<span class="desc">${esc(bits.join(", "))}</span>` : "";
+    function blurb(item) {
+      if (item.parts && item.parts.length) return item.parts.join(", ");
+      return [item.size, item.hint].filter(Boolean).join(", ");
     }
 
     function featureCard(item) {
@@ -750,10 +728,8 @@
         <span class="thumb">${thumb(item)}</span>
         <span>
           <span class="name">${esc(item.name)}</span>
-          ${meta(item)}
-          ${partList(item.parts)}
+          ${blurb(item) ? `<span class="desc short">${esc(blurb(item))}</span>` : ""}
           ${off ? `<span class="when">Nur Freitag und Samstag</span>` : ""}
-          ${marks(item.codes)}
         </span>
         <span class="price">${euro(item.price)}</span>
       </button>`;
@@ -830,8 +806,7 @@
               <h2 id="sheet-title">${esc(item.name)}</h2>
               <button type="button" data-action="close">Schließen</button>
             </div>
-            ${meta(item)}
-            ${partList(item.parts)}
+            ${blurb(item) ? `<p class="desc">${esc(blurb(item))}</p>` : ""}
             ${item.days ? `<p class="when">Nur Freitag und Samstag</p>` : ""}
             ${marks(picked.codes)}
             ${koffein}
