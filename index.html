@@ -152,10 +152,11 @@
       background: #e8e0d3;
     }
     #menu {
+      position: relative;
       overflow: auto;
       padding: 20px 26px 28px;
-      scroll-behavior: smooth;
       scrollbar-color: #cfc4b4 transparent;
+      -webkit-overflow-scrolling: touch;
     }
     .section { margin-top: 28px; scroll-margin-top: 12px; }
     .section:first-child { margin-top: 0; }
@@ -933,8 +934,7 @@
       if (!button) return;
       const action = button.dataset.action;
       if (action === "nav") {
-        setCurrent(button.dataset.cat);
-        document.getElementById(button.dataset.cat)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        showCat(button.dataset.cat);
       } else if (action === "open") {
         openItem(button.dataset.id);
       } else if (action === "pick") {
@@ -967,18 +967,36 @@
     });
     sheet.addEventListener("close", () => { draft = null; });
 
+    let navLock = false;
+
+    function showCat(id) {
+      const section = document.getElementById(id);
+      if (!section) return;
+      navLock = true;
+      setCurrent(id);
+      menuEl.scrollTop = section.offsetTop;
+      requestAnimationFrame(() => { navLock = false; });
+    }
+
+    function catFromScroll() {
+      const line = menuEl.scrollTop + 8;
+      let id = "fruehstueck";
+      for (const cat of [...categories, { id: "zeiten" }]) {
+        const section = document.getElementById(cat.id);
+        if (section && section.offsetTop <= line) id = cat.id;
+      }
+      return id;
+    }
+
+    menuEl.addEventListener("scroll", () => {
+      if (navLock) return;
+      setCurrent(catFromScroll());
+    }, { passive: true });
+
     paintClock();
     renderMenu();
     renderSlip();
     setCurrent("fruehstueck");
-
-    const observer = new IntersectionObserver((entries) => {
-      const hit = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (hit) setCurrent(hit.target.id);
-    }, { root: menuEl, threshold: 0.35 });
-    for (const id of [...categories.map((cat) => cat.id), "zeiten"]) observer.observe(document.getElementById(id));
 
     if ("serviceWorker" in navigator && window.isSecureContext) {
       navigator.serviceWorker.register("sw.js").catch(() => {});
