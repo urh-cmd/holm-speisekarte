@@ -670,8 +670,7 @@
       const now = new Date();
       const day = now.toLocaleDateString("de-DE", { weekday: "short" });
       const time = now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
-      const closed = now.getDay() === 0 ? ", Café zu" : "";
-      document.getElementById("clock").textContent = `${day} ${time}${closed}`;
+      document.getElementById("clock").textContent = `${day} ${time}`;
     }
 
     function defaults(item) {
