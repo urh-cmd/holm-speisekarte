@@ -392,6 +392,7 @@
     .sheet.has-photo { grid-template-columns: 268px minmax(0, 1fr); }
     .sheet-photo { position: relative; background: #e6ddcf; min-height: 240px; }
     .sheet-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .sheet-photo img.line { object-fit: contain; }
     .sheet-copy { padding: 20px 22px 18px; overflow: auto; max-height: calc(100dvh - 72px); }
     .sheet-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .sheet-top h2 {
@@ -803,7 +804,7 @@
         </fieldset>` : "";
       sheet.innerHTML = `
         <div class="sheet ${item.image ? "has-photo" : ""}">
-          ${item.image ? `<div class="sheet-photo"><img src="${item.image}" alt="" /></div>` : ""}
+          ${item.image ? `<div class="sheet-photo"><img src="${item.image}" alt=""${item.id === "schmid" ? ' class="line"' : ""} /></div>` : ""}
           <div class="sheet-copy">
             <div class="sheet-top">
               <h2 id="sheet-title">${esc(item.name)}</h2>
