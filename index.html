@@ -3,559 +3,706 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="Speisekarte des Cafés Pfaffenhausen der Bäckerei Schmid. Bestellen am Tisch, zahlen an der Theke." />
-  <meta name="theme-color" content="#f7f4f1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Schmid" />
+  <meta name="theme-color" content="#f3eee6" />
   <title>Schmid · Speisekarte · Café Pfaffenhausen</title>
   <style>
-    /* Hallmark · shape: app screen · genre: editorial · theme: Almanac (deal 1/3, seed tablet-menu-bakery-cafe-f171) · redesign: full
-     * nav: top bar, sidebar of eight groups · signature: the guest check · states: empty, ordering, sent
-     * axes: light/grotesk-sans/chromatic-orange · posture: restrained · contrast: pass · v2.0.0
-     * brand: Bäckerei Schmid (spec 2026-11-15) · redesign: full
-     * Hallmark · dropped the Holm menu, the generated food photos and the tablet frame · the user replaced the fictional café with Bäckerei Schmid
-     * Hallmark · reworded the fictional dishes to the published Pfaffenhausen card · the user named the bakery */
-    /* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: R, cut the photo rail and the fake tablet so the check is the only object */
-    @import url("./tokens.css");
-    @import url("./base.css");
-
+    @font-face {
+      font-family: Fraunces;
+      src: url("fonts/fraunces.woff2") format("woff2");
+      font-weight: 500 700;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: Outfit;
+      src: url("fonts/outfit.woff2") format("woff2");
+      font-weight: 400 600;
+      font-style: normal;
+      font-display: swap;
+    }
+    :root {
+      --bg: #f3eee6;
+      --ink: #211c17;
+      --muted: #6e655c;
+      --faint: #8d847a;
+      --line: #ddd4c6;
+      --accent: #7a332e;
+      --serif: "Fraunces", "Iowan Old Style", Palatino, Georgia, serif;
+      --sans: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
     html { -webkit-text-size-adjust: 100%; }
     body {
-      min-height: 100dvh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
       overscroll-behavior: none;
+      background: #241f1c;
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.4;
+      user-select: none;
     }
-    button { letter-spacing: 0; text-transform: none; cursor: pointer; background: transparent; border: 0; color: inherit; }
-    button:disabled { cursor: default; color: var(--color-muted); }
-    button:hover:not(:disabled) { background: var(--color-paper-2); }
-    button:active:not(:disabled) { background: var(--color-paper-3); }
-    .app {
-      min-height: 100dvh;
+    h1, h2, h3, p { margin: 0; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    button:disabled { cursor: default; }
+    img { display: block; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    .device {
+      width: min(1180px, calc(100vw - 48px));
+      height: min(800px, calc(100dvh - 48px));
+      background: var(--bg);
+      border: 12px solid #14110f;
+      border-radius: 22px;
       display: grid;
       grid-template-rows: auto minmax(0, 1fr);
+      overflow: hidden;
     }
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: var(--space-md);
-      padding: var(--space-sm) var(--space-md);
-      border-bottom: var(--rule-hair) solid var(--color-rule);
-      background: var(--color-paper);
+      gap: 16px;
+      padding: 12px 18px 12px 20px;
+      border-bottom: 1px solid var(--line);
     }
-    header p { color: var(--color-muted); font-size: var(--text-sm); }
-    .place { display: flex; flex-direction: column; gap: var(--space-3xs); }
+    h1 { display: flex; flex-direction: column; }
+    h1 span {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 30px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    h1 small {
+      margin-top: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .head-meta { display: flex; align-items: center; gap: 14px; }
+    time { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 14px; }
+    .ticket {
+      border: 1px solid var(--ink);
+      padding: 7px 10px 6px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
     .stage {
       display: grid;
-      grid-template-columns: 13rem minmax(0, 1fr) 20rem;
+      grid-template-columns: 188px minmax(0, 1fr) 318px;
       min-height: 0;
     }
     .rail {
-      border-right: var(--rule-hair) solid var(--color-rule);
-      padding: var(--space-sm);
+      border-right: 1px solid var(--line);
+      padding: 16px 12px 16px 14px;
       overflow: auto;
-      background: var(--color-paper-2);
     }
+    .kicker {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .rail .kicker { margin: 2px 10px 8px; }
     .rail button {
       display: block;
       width: 100%;
       text-align: left;
-      min-height: var(--space-xl);
-      padding: var(--space-xs) var(--space-sm);
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      border-left: var(--rule-bar) solid transparent;
+      min-height: 44px;
+      padding: 10px 10px;
+      border: 0;
+      border-left: 2px solid transparent;
+      background: transparent;
+      color: var(--muted);
     }
     .rail button[aria-current="true"] {
-      color: var(--color-accent);
-      border-left-color: var(--color-accent);
-      background: var(--color-paper);
+      color: var(--ink);
+      border-left-color: var(--ink);
+      background: #e8e0d3;
     }
-    #menu { overflow: auto; padding: var(--space-md) var(--space-lg) var(--space-xl); min-height: 0; }
-    .group { margin-top: var(--space-lg); }
-    .group:first-child { margin-top: 0; }
-    .group h2 { font-size: var(--text-lg); }
-    .group .note { margin-top: var(--space-xs); color: var(--color-muted); font-size: var(--text-sm); max-width: 62ch; }
-    table { width: 100%; border-collapse: collapse; margin-top: var(--space-sm); }
-    th, td {
+    #menu {
+      overflow: auto;
+      padding: 20px 26px 28px;
+      scroll-behavior: smooth;
+      scrollbar-color: #cfc4b4 transparent;
+    }
+    .section { margin-top: 28px; scroll-margin-top: 12px; }
+    .section:first-child { margin-top: 0; }
+    .section h2 {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+    .lead { margin-top: 3px; color: var(--muted); font-size: 14px; }
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .feature {
+      display: block;
+      padding: 0;
+      border: 0;
+      background: transparent;
       text-align: left;
-      vertical-align: baseline;
-      padding: var(--space-sm) var(--space-xs);
-      border-bottom: var(--rule-hair) solid var(--color-rule);
-      font-weight: 400;
     }
-    th {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      letter-spacing: 0;
+    .feature img { width: 100%; height: 148px; object-fit: cover; background: #e6ddcf; }
+    .feature:disabled img { opacity: 0.55; }
+    .fn {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      margin-top: 8px;
+    }
+    .ft { font-family: var(--serif); font-size: 18px; font-weight: 560; letter-spacing: -0.02em; }
+    .fp { font-variant-numeric: tabular-nums; font-size: 14px; }
+    .feature:disabled .fp {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .fd { display: block; margin-top: 2px; color: var(--muted); font-size: 13px; }
+    .rows { margin-top: 6px; }
+    .item {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      width: 100%;
+      padding: 11px 4px;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      background: transparent;
+      text-align: left;
+    }
+    .rows .item:first-child { border-top: 1px solid var(--line); margin-top: 8px; }
+    .item:not(:disabled):hover { background: rgba(33, 28, 23, 0.035); }
+    .thumb { width: 72px; height: 72px; overflow: hidden; background: #e6ddcf; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .item:disabled .thumb img { opacity: 0.45; }
+    .mono {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      font-family: var(--serif);
+      font-size: 28px;
+      color: #6d6256;
+    }
+    .name {
+      display: block;
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 560;
+      letter-spacing: -0.02em;
+    }
+    .desc { display: block; margin-top: 2px; color: var(--muted); font-size: 13.5px; }
+    .all {
+      display: block;
+      margin-top: 4px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--faint);
+    }
+    .price { font-variant-numeric: tabular-nums; font-size: 15px; }
+    .item:disabled .price {
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.04em;
       text-transform: none;
-      color: var(--color-muted);
     }
-    .group td.price, .group th.price { text-align: right; width: 9rem; white-space: nowrap; }
-    .hours td.price, .hours th.price { text-align: left; white-space: nowrap; }
-    .dish { font-family: var(--font-display); font-weight: 600; font-size: var(--text-md); }
-    .detail, .codes { display: block; margin-top: var(--space-3xs); color: var(--color-muted); font-size: var(--text-sm); font-weight: 400; }
-    button.pick {
-      height: var(--space-xl);
-      padding: 0 var(--space-xs);
-      line-height: var(--space-xl);
-      font-variant-numeric: tabular-nums;
-      text-align: right;
-      white-space: nowrap;
+    .legend {
+      margin-top: 26px;
+      max-width: 68ch;
+      color: var(--faint);
+      font-size: 12px;
+      line-height: 1.55;
     }
-    button.pick:hover:not(:disabled) { color: var(--color-accent); background: transparent; }
-    .hours { margin-top: var(--space-xl); }
-    .hours h2 { font-size: var(--text-lg); margin-bottom: var(--space-sm); }
-    .hours + .hours { margin-top: var(--space-lg); }
-    .legend { margin-top: var(--space-xl); color: var(--color-muted); font-size: var(--text-sm); max-width: 70ch; }
-    .legend li { margin-top: var(--space-3xs); }
     aside {
       min-height: 0;
       display: flex;
-      background: var(--color-paper-2);
-      border-left: var(--rule-hair) solid var(--color-rule);
+      background: #ebe4d6;
+      border-left: 1px solid var(--line);
     }
     #slip {
       flex: 1;
       min-height: 0;
       display: flex;
       flex-direction: column;
-      padding: var(--space-md);
+      padding: 18px 16px 14px;
     }
     .slip-body { flex: 1; min-height: 0; overflow: auto; }
-    .slip-title { font-size: var(--text-xl); margin: var(--space-2xs) 0 var(--space-sm); }
-    .how { list-style: none; margin: var(--space-sm) 0 0; padding: 0; }
-    .how li {
-      padding: var(--space-sm) 0;
-      border-bottom: var(--rule-hair) solid var(--color-rule);
+    .slip-title {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+      margin: 4px 0 12px;
     }
+    .how { list-style: none; margin: 8px 0 0; padding: 0; }
+    .how li {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      gap: 8px;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .how span { font-family: var(--serif); color: var(--accent); font-size: 18px; line-height: 1.2; }
+    .how-note { margin-top: 14px; color: var(--muted); font-size: 14px; }
     .lines { list-style: none; margin: 0; padding: 0; }
     .lines li {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: var(--space-xs);
+      gap: 10px;
       align-items: start;
-      padding: var(--space-sm) 0;
-      border-bottom: var(--rule-hair) solid var(--color-rule);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
     }
-    .ln { display: block; font-family: var(--font-display); font-weight: 600; }
-    .ld { display: block; margin-top: var(--space-3xs); color: var(--color-muted); font-size: var(--text-sm); }
-    .lp { font-variant-numeric: tabular-nums; }
+    .ln { display: block; font-family: var(--serif); font-size: 16px; font-weight: 560; }
+    .ld { display: block; margin-top: 2px; color: var(--muted); font-size: 12.5px; }
+    .lp { font-variant-numeric: tabular-nums; font-size: 14px; padding-top: 4px; }
     .stepper {
       display: inline-grid;
-      grid-template-columns: var(--space-xl) 1.5rem var(--space-xl);
+      grid-template-columns: 36px 22px 36px;
       align-items: center;
       justify-items: center;
-      border: var(--rule-hair) solid var(--color-ink);
+      border: 1px solid var(--ink);
     }
-    .stepper button { width: var(--space-xl); height: var(--space-xl); }
-    .stepper button:hover { background: var(--color-paper); }
+    .stepper button {
+      width: 36px;
+      height: 40px;
+      border: 0;
+      background: transparent;
+      font-size: 18px;
+      line-height: 1;
+    }
     .total {
       display: flex;
       justify-content: space-between;
-      gap: var(--space-sm);
-      margin-top: var(--space-sm);
-      padding-top: var(--space-sm);
-      border-top: var(--rule-bar) solid var(--color-ink);
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: var(--text-lg);
+      gap: 12px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--ink);
+      font-family: var(--serif);
+      font-size: 22px;
+      font-weight: 560;
     }
-    .slip-foot { padding-top: var(--space-sm); }
+    .slip-foot { padding-top: 12px; }
     .send {
       width: 100%;
-      min-height: var(--space-xl);
-      background: var(--color-accent);
-      color: var(--color-accent-ink);
-      font-weight: 600;
+      min-height: 48px;
+      border: 0;
+      background: var(--ink);
+      color: #f4efe7;
+      font-size: 15px;
+      font-weight: 500;
     }
-    .send:hover:not(:disabled), .send:active:not(:disabled) { background: var(--color-accent-2); color: var(--color-accent-ink); }
-    .send:disabled { background: var(--color-paper-3); color: var(--color-muted); }
-    .fine { margin-top: var(--space-xs); text-align: center; color: var(--color-muted); font-size: var(--text-sm); }
+    .send:disabled { background: #d9d0c3; color: #8c8378; }
+    .fine { margin-top: 8px; text-align: center; color: var(--muted); font-size: 12px; }
     .order-no {
-      font-family: var(--font-display);
-      font-weight: 600;
-      font-size: var(--text-3xl);
-      line-height: 1;
-      margin: var(--space-sm) 0 var(--space-xs);
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 72px;
+      line-height: 0.85;
+      letter-spacing: -0.045em;
+      margin: 12px 0 8px;
     }
+    .where { color: var(--muted); font-size: 14px; }
+    .bring { margin-top: 14px; font-size: 14.5px; }
+    .q { font-variant-numeric: tabular-nums; padding-top: 3px; color: var(--muted); }
     #sheet {
-      border: var(--rule-hair) solid var(--color-rule);
-      padding: var(--space-lg);
-      color: var(--color-ink);
-      background: var(--color-sheet);
-      width: min(36rem, calc(100% - var(--space-xl)));
-      max-height: calc(100dvh - var(--space-xl));
+      border: 0;
+      padding: 0;
+      color: var(--ink);
+      background: #f6f1e8;
+      width: min(760px, calc(100vw - 72px));
+      max-height: calc(100dvh - 72px);
     }
-    #sheet::backdrop { background: color-mix(in oklab, var(--color-ink) 45%, transparent); }
-    .sheet-top { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-sm); }
-    .sheet-top button { min-height: var(--space-xl); color: var(--color-muted); }
-    .choices { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-sm); }
+    #sheet::backdrop { background: rgba(20, 16, 13, 0.5); }
+    .sheet { display: grid; min-height: 420px; }
+    .sheet.has-photo { grid-template-columns: 268px minmax(0, 1fr); }
+    .sheet-photo { position: relative; background: #e6ddcf; min-height: 240px; }
+    .sheet-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .sheet-copy { padding: 20px 22px 18px; }
+    .sheet-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .sheet-top h2 {
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: 32px;
+      letter-spacing: -0.03em;
+    }
+    .sheet-top button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      min-height: 44px;
+      padding: 0 2px;
+    }
+    .sheet-copy > .desc { margin: 6px 0 10px; color: var(--muted); }
+    .all.full { letter-spacing: 0; font-size: 13px; color: var(--muted); }
+    fieldset { border: 0; margin: 14px 0 0; padding: 0; }
+    legend {
+      padding: 0;
+      margin-bottom: 8px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .choices { display: flex; flex-wrap: wrap; gap: 8px; }
     .choices button {
-      min-height: var(--space-xl);
-      padding: var(--space-xs) var(--space-sm);
-      border: var(--rule-hair) solid var(--color-rule);
+      min-height: 44px;
+      padding: 8px 12px;
+      border: 1px solid #cfc4b4;
+      background: transparent;
     }
     .choices button[aria-pressed="true"] {
-      background: var(--color-ink);
-      color: var(--color-paper);
-      border-color: var(--color-ink);
+      background: var(--ink);
+      border-color: var(--ink);
+      color: #f4efe7;
     }
-    .sheet-actions { display: flex; gap: var(--space-sm); align-items: center; margin-top: var(--space-md); }
+    .sheet-actions { display: flex; gap: 10px; align-items: center; margin-top: 18px; }
+    .sheet-actions .stepper { grid-template-columns: 42px 28px 42px; }
+    .sheet-actions .stepper button { width: 42px; height: 48px; }
     .add {
       flex: 1;
-      min-height: var(--space-xl);
-      background: var(--color-accent);
-      color: var(--color-accent-ink);
-      font-weight: 600;
+      min-height: 48px;
+      border: 0;
+      background: var(--ink);
+      color: #f4efe7;
+      font-weight: 500;
     }
-    .add:hover, .add:active { background: var(--color-accent-2); color: var(--color-accent-ink); }
-    fieldset { border: 0; margin: var(--space-sm) 0 0; padding: 0; }
-    legend { padding: 0; margin-bottom: var(--space-xs); font-size: var(--text-sm); color: var(--color-muted); }
-    @media (max-width: 60rem) {
-      .stage { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto; }
-      .rail {
-        display: flex;
-        gap: var(--space-2xs);
-        overflow-x: auto;
-        border-right: 0;
-        border-bottom: var(--rule-hair) solid var(--color-rule);
-        padding: var(--space-xs);
+    .turn { display: none; }
+    @media (any-pointer: coarse) and (max-width: 1400px) and (orientation: landscape) {
+      body { background: var(--bg); }
+      .device {
+        width: 100%;
+        height: 100%;
+        height: 100svh;
+        border: 0;
+        border-radius: 0;
       }
-      .rail button { width: auto; white-space: nowrap; border-left: 0; border-bottom: var(--rule-bar) solid transparent; }
-      .rail button[aria-current="true"] { border-bottom-color: var(--color-accent); }
-      aside { border-left: 0; border-top: var(--rule-hair) solid var(--color-rule); max-height: 42dvh; }
-      #menu { padding: var(--space-md); }
+      header {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(18px, env(safe-area-inset-right));
+      }
+      .slip-foot { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+    }
+    @media (any-pointer: coarse) and (orientation: portrait) {
+      .turn {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        align-items: center;
+        justify-content: center;
+        padding: 32px;
+        background: #241f1c;
+        color: #f3eee6;
+        text-align: center;
+      }
+      .turn p {
+        font-family: var(--serif);
+        font-size: 32px;
+        letter-spacing: -0.03em;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto !important; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
+  <div class="turn"><p>Zum Vorstellen quer halten.</p></div>
+  <div class="device">
     <header>
-      <div class="place">
-        <h1>Schmid</h1>
-        <p>Café Pfaffenhausen</p>
+      <h1>
+        <span>Schmid</span>
+        <small>Café Pfaffenhausen</small>
+      </h1>
+      <div class="head-meta">
+        <time id="clock">Sonntag</time>
+        <span class="ticket">Tisch 7</span>
       </div>
-      <p id="today">Tisch 7</p>
     </header>
     <div class="stage">
-      <nav class="rail" aria-label="Gruppen">
-        <div id="cats">
-          <button type="button" data-action="nav" data-cat="fruehstueck">Frühstück</button>
-          <button type="button" data-action="nav" data-cat="dazu">Dazu</button>
-          <button type="button" data-action="nav" data-cat="kuchen">Kuchentheke</button>
-          <button type="button" data-action="nav" data-cat="heiss">Heißgetränke</button>
-          <button type="button" data-action="nav" data-cat="tee">Tee</button>
-          <button type="button" data-action="nav" data-cat="kalt">Getränke</button>
-          <button type="button" data-action="nav" data-cat="alkohol">Alkohol</button>
-          <button type="button" data-action="nav" data-cat="wein">Wein</button>
-        </div>
+      <nav class="rail" aria-label="Kategorien">
+        <p class="kicker">Karte</p>
+        <div id="cats"></div>
       </nav>
-      <main id="menu">
-        <section class="group" id="fruehstueck">
-          <h2>Frühstück</h2>
-          <p class="note">Unsere Frühstücksauswahl beinhaltet keine Heißgetränke. Kaffee, Tee oder Kakao bitte extra wählen. Stand 29. Januar 2022.</p>
-          <table>
-            <thead><tr><th>Gericht</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><span class="dish">„Guten Morgen“ Frühstück</span><span class="detail">1 Semmel, 1 Butter, 1 Fruchtaufstrich oder 1 Honig</span><span class="codes">8</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="morgen" data-name="„Guten Morgen“ Frühstück" data-note="1 Semmel, 1 Butter, 1 Fruchtaufstrich oder 1 Honig" data-codes="8" data-price="200">2,00 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Schmid“ Frühstück</span><span class="detail">1 Semmel, 1 Mehrkornsemmel, Käsevariation, Schinkenvariation, Salami, 1 Fruchtaufstrich, 1 Nutella, 2 Butter</span><span class="codes">1, 2, 3, 4, 8, 15</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="schmid" data-name="„Schmid“ Frühstück" data-note="Semmel, Mehrkornsemmel, Käse, Schinken, Salami, Aufstrich, Nutella, Butter" data-codes="1,2,3,4,8,15" data-price="650">6,50 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Schmid Spezial“ Frühstück</span><span class="detail">1 Semmel, 1 Mehrkornsemmel, 1 Butter, 1 Kalbsleberwurst, Käsevariation, kleine Wurstvariation, Bircher Müsli oder Obstsalat, 1 Glas frisch gepresster Orangensaft, Fruchtaufstrich</span><span class="codes">1, 2, 3, 4, 8, 15</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="spezial" data-name="„Schmid Spezial“ Frühstück" data-note="Semmel, Mehrkornsemmel, Kalbsleberwurst, Käse, Wurst, Müsli oder Obst, Orangensaft" data-codes="1,2,3,4,8,15" data-price="890">8,90 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Maucher“ Frühstück</span><span class="detail">2 Semmel, 1 Butter, Schinken, Salami, 1 Kalbsleberwurst</span><span class="codes">2, 7, 15</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="maucher" data-name="„Maucher“ Frühstück" data-note="2 Semmel, Butter, Schinken, Salami, Kalbsleberwurst" data-codes="2,7,15" data-price="450">4,50 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Vital“ Frühstück</span><span class="detail">1 Mehrkornsemmel, 1 Sunnenweckle, 1 Butter, Käsevariation, Frischkäse, Bircher Müsli oder Obstsalat, 1 Glas frisch gepresster Orangensaft, Fruchtaufstrich</span><span class="codes">1, 3, 8</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="vital" data-name="„Vital“ Frühstück" data-note="Mehrkornsemmel, Sunnenweckle, Käse, Frischkäse, Müsli oder Obst, Orangensaft" data-codes="1,3,8" data-price="850">8,50 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Schlemmerei für Zwei“ Frühstück</span><span class="detail">1 Croissant, 2 Semmel, 1 Mehrkornsemmel, 1 Brezel, Schinkenvariation, Käsevariation, Salami, Fruchtaufstrich, 3 Butter, Räucherlachs, Frischkäse, Rührei mit Speck oder 2 gekochte Eier, Tomate-Mozzarella, gefüllte Antipasti, 2 Gläser Orangensaft oder 2 Prosecco, 2 Bircher Müsli oder Obstsalat, Melonenschiffchen</span><span class="codes">1, 2, 3, 4, 8, 15</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="zwei" data-name="„Schlemmerei für Zwei“ Frühstück" data-note="Frühstück für zwei, wie auf der Karte" data-codes="1,2,3,4,8,15" data-price="2150">21,50 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Storchen“ Frühstück</span><span class="detail">1 Semmel, 1 Breze, 1 Vollkornsemmel, Schinkenvariation, Salami, Käsevariation, Fruchtaufstrich, Frischwurst, 2 Butter, Tomate-Mozzarella</span><span class="codes">1, 2, 3, 4, 5, 7, 8, 15</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="storchen" data-name="„Storchen“ Frühstück" data-note="Semmel, Breze, Vollkornsemmel, Wurst, Käse, Tomate-Mozzarella" data-codes="1,2,3,4,5,7,8,15" data-price="890">8,90 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Französisches“ Frühstück</span><span class="detail">2 Croissants, Honig, Fruchtaufstrich, 1 Butter, 1 Glas frisch gepresster Orangensaft</span><span class="codes">1, 2, 3, 8</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="franzoesisch" data-name="„Französisches“ Frühstück" data-note="2 Croissants, Honig, Aufstrich, Butter, Orangensaft" data-codes="1,2,3,8" data-price="650">6,50 €</button></td>
-              </tr>
-              <tr>
-                <td><span class="dish">„Bayerisches“ Frühstück</span><span class="detail">1 Paar Weißwürste, 1 Breze, süßer Senf. Nur Freitag und Samstag.</span><span class="codes">4, 7</span></td>
-                <td class="price"><button type="button" class="pick" data-action="open" data-id="bayerisch" data-name="„Bayerisches“ Frühstück" data-note="Weißwürste, Breze, süßer Senf" data-codes="4,7" data-price="490" data-days="5,6">4,90 €</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="group" id="dazu">
-          <h2>Dazu</h2>
-          <p class="note">Zusätzlich zu Ihrem Frühstück.</p>
-          <table>
-            <thead><tr><th>Gericht</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr><td><span class="dish">1 Portion Fruchtaufstrich</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="aufstrich" data-name="Fruchtaufstrich" data-price="90">0,90 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Honig oder Nutella</span><span class="codes">3, 8</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="honig" data-name="Honig oder Nutella" data-codes="3,8" data-price="80">0,80 €</button></td></tr>
-              <tr><td><span class="dish">1 Butter</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="butter" data-name="Butter" data-price="80">0,80 €</button></td></tr>
-              <tr><td><span class="dish">1 Kalbsleberwurst</span><span class="codes">2, 8</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="leberwurst" data-name="Kalbsleberwurst" data-codes="2,8" data-price="90">0,90 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Schinken, roh und gekocht</span><span class="codes">2, 3, 15</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="schinken" data-name="Schinken, roh und gekocht" data-codes="2,3,15" data-price="210">2,10 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Salami</span><span class="codes">2, 3, 4</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="salami" data-name="Salami" data-codes="2,3,4" data-price="210">2,10 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Bircher Müsli</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="muesli" data-name="Bircher Müsli" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Obstsalat</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="obst" data-name="Obstsalat" data-price="270">2,70 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Käse</span><span class="codes">1</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="kaese" data-name="Käse" data-codes="1" data-price="210">2,10 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Frischkäse</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="frischkaese" data-name="Frischkäse" data-price="90">0,90 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Tomate-Mozzarella</span><span class="codes">1, 3, 5, 8</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="tomate" data-name="Tomate-Mozzarella" data-codes="1,3,5,8" data-price="210">2,10 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Lachs mit Sahnemeerrettich</span><span class="codes">3</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="lachs" data-name="Lachs mit Sahnemeerrettich" data-codes="3" data-price="390">3,90 €</button></td></tr>
-              <tr><td><span class="dish">1 Portion Rührei mit Speck</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="ruehrei" data-name="Rührei mit Speck" data-price="310">3,10 €</button></td></tr>
-              <tr><td><span class="dish">1 gekochtes Ei</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="ei" data-name="Gekochtes Ei" data-price="120">1,20 €</button></td></tr>
-              <tr><td><span class="dish">Orangensaft, frisch gepresst, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="oj" data-name="Orangensaft, 0,2 l" data-price="250">2,50 €</button></td></tr>
-              <tr><td><span class="dish">1 Semmel</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="semmel" data-name="Semmel" data-price="60">0,60 €</button></td></tr>
-              <tr><td><span class="dish">1 Breze</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="breze" data-name="Breze" data-price="100">1,00 €</button></td></tr>
-              <tr><td><span class="dish">1 Mehrkornsemmel</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="mehrkorn" data-name="Mehrkornsemmel" data-price="100">1,00 €</button></td></tr>
-              <tr><td><span class="dish">1 Croissant</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="croissant" data-name="Croissant" data-price="160">1,60 €</button></td></tr>
-              <tr><td><span class="dish">1 Butterbreze</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="butterbreze" data-name="Butterbreze" data-price="180">1,80 €</button></td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="group" id="kuchen">
-          <h2>Kuchentheke</h2>
-          <table>
-            <thead><tr><th>Gericht</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr><td><span class="dish">Kuchen, gebacken</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="kuchen" data-name="Kuchen, gebacken" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Sahnetorte</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="sahne" data-name="Sahnetorte" data-price="310">3,10 €</button></td></tr>
-              <tr><td><span class="dish">Butterkremtorte</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="butterkrem" data-name="Butterkremtorte" data-price="310">3,10 €</button></td></tr>
-              <tr><td><span class="dish">Prinzregententorte</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="prinz" data-name="Prinzregententorte" data-price="320">3,20 €</button></td></tr>
-              <tr><td><span class="dish">Sachertorte</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="sacher" data-name="Sachertorte" data-price="310">3,10 €</button></td></tr>
-              <tr><td><span class="dish">Obstkuchen</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="obstkuchen" data-name="Obstkuchen" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Sahne- oder Butterkremroulade</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="roulade" data-name="Sahne- oder Butterkremroulade" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Plundergebäck</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="plunder" data-name="Plundergebäck" data-price="190">1,90 €</button></td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="group" id="heiss">
-          <h2>Heißgetränke</h2>
-          <table>
-            <thead><tr><th>Gericht</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr><td><span class="dish">Kaffee klein, auch entkoffeiniert</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="kaffee-klein" data-name="Kaffee klein" data-option="koffein" data-price="220">2,20 €</button></td></tr>
-              <tr><td><span class="dish">Kaffee groß, auch entkoffeiniert</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="kaffee-gross" data-name="Kaffee groß" data-option="koffein" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Cappuccino klein</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="cap-klein" data-name="Cappuccino klein" data-codes="9" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Cappuccino groß</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="cap-gross" data-name="Cappuccino groß" data-codes="9" data-price="340">3,40 €</button></td></tr>
-              <tr><td><span class="dish">Milchkaffee</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="milchkaffee" data-name="Milchkaffee" data-codes="9" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Latte Macchiato</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="latte" data-name="Latte Macchiato" data-codes="9" data-price="310">3,10 €</button></td></tr>
-              <tr><td><span class="dish">Espresso Macchiato</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="macchiato" data-name="Espresso Macchiato" data-codes="9" data-price="280">2,80 €</button></td></tr>
-              <tr><td><span class="dish">Espresso</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="espresso" data-name="Espresso" data-codes="9" data-price="180">1,80 €</button></td></tr>
-              <tr><td><span class="dish">Espresso doppelt</span><span class="codes">9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="espresso-doppelt" data-name="Espresso doppelt" data-codes="9" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Heiße Schokolade</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="schoko" data-name="Heiße Schokolade" data-price="280">2,80 €</button></td></tr>
-              <tr><td><span class="dish">Heiße Milch mit Honig</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="milch-honig" data-name="Heiße Milch mit Honig" data-price="190">1,90 €</button></td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="group" id="tee">
-          <h2>Tee</h2>
-          <table>
-            <thead><tr><th>Sorte</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr><td><span class="dish">Darjeeling Royal Second Flash</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="darjeeling" data-name="Darjeeling Royal Second Flash" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Assam Special Broken</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="assam" data-name="Assam Special Broken" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Grüntee Asia Superior</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="gruen" data-name="Grüntee Asia Superior" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Kräutergarten</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="kraeuter" data-name="Kräutergarten" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Pfefferminz</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="minze" data-name="Pfefferminz" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Rooibas Vanilla</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="rooibos" data-name="Rooibas Vanilla" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Apfel Früchte</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="apfeltee" data-name="Apfel Früchte" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Sommerbeeren</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="beeren" data-name="Sommerbeeren" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Tee der Saison</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="saison" data-name="Tee der Saison" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Orange 7 Vitamine</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="orange7" data-name="Orange 7 Vitamine" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Kamille</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="kamille" data-name="Kamille" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Kaminfeuer</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="kamin" data-name="Kaminfeuer" data-price="260">2,60 €</button></td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="group" id="kalt">
-          <h2>Getränke</h2>
-          <p class="note">Alle Säfte sind auch als Schorle erhältlich, 0,5 l.</p>
-          <table>
-            <thead><tr><th>Gericht</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr><td><span class="dish">Coca-Cola, 0,33 l</span><span class="codes">1, 9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="cola" data-name="Coca-Cola, 0,33 l" data-codes="1,9" data-price="200">2,00 €</button></td></tr>
-              <tr><td><span class="dish">Fanta Orange, 0,33 l</span><span class="codes">1, 3</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="fanta" data-name="Fanta Orange, 0,33 l" data-codes="1,3" data-price="200">2,00 €</button></td></tr>
-              <tr><td><span class="dish">Spezi Paulaner, 0,5 l</span><span class="codes">1, 3, 9</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="spezi" data-name="Spezi Paulaner, 0,5 l" data-codes="1,3,9" data-price="240">2,40 €</button></td></tr>
-              <tr><td><span class="dish">Adelholzener Naturell, 0,3 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="naturell" data-name="Adelholzener Naturell, 0,3 l" data-price="200">2,00 €</button></td></tr>
-              <tr><td><span class="dish">Adelholzener Classic, 0,3 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="classic" data-name="Adelholzener Classic, 0,3 l" data-price="200">2,00 €</button></td></tr>
-              <tr><td><span class="dish">Adelholzener, Flasche 0,75 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="flasche" data-name="Adelholzener, Flasche 0,75 l" data-price="350">3,50 €</button></td></tr>
-              <tr><td><span class="dish">Apfelsaft, klar, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="apfelsaft" data-name="Apfelsaft, klar, 0,2 l" data-price="190">1,90 €</button></td></tr>
-              <tr><td><span class="dish">Multivitaminsaft, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="multi" data-name="Multivitaminsaft, 0,2 l" data-price="190">1,90 €</button></td></tr>
-              <tr><td><span class="dish">Johannisbeer-Nektar, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="johannis" data-name="Johannisbeer-Nektar, 0,2 l" data-price="190">1,90 €</button></td></tr>
-              <tr><td><span class="dish">Frisch gepresster Orangensaft, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="oj-karte" data-name="Frisch gepresster Orangensaft, 0,2 l" data-price="250">2,50 €</button></td></tr>
-              <tr><td><span class="dish">Saftschorle, 0,5 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="schorle" data-name="Saftschorle, 0,5 l" data-note="Alle Säfte" data-price="310">3,10 €</button></td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="group" id="alkohol">
-          <h2>Alkoholische Getränke</h2>
-          <table>
-            <thead><tr><th>Gericht</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr><td><span class="dish">Export, Storchenbräu, 0,5 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="export" data-name="Export, Storchenbräu, 0,5 l" data-price="280">2,80 €</button></td></tr>
-              <tr><td><span class="dish">Bayrisch hell, Storchenbräu, 0,5 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="hell" data-name="Bayrisch hell, Storchenbräu, 0,5 l" data-price="280">2,80 €</button></td></tr>
-              <tr><td><span class="dish">Hefeweissbier, Franziskaner, 0,5 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="weiss" data-name="Hefeweissbier, Franziskaner, 0,5 l" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Hefeweissbier alkoholfrei, 0,5 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="weiss-frei" data-name="Hefeweissbier alkoholfrei, 0,5 l" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Russ, 0,5 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="russ" data-name="Russ, 0,5 l" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Radler, 0,5 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="radler" data-name="Radler, 0,5 l" data-price="280">2,80 €</button></td></tr>
-              <tr><td><span class="dish">Hugo</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="hugo" data-name="Hugo" data-price="450">4,50 €</button></td></tr>
-              <tr><td><span class="dish">Aperol Spritz</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="aperol" data-name="Aperol Spritz" data-price="450">4,50 €</button></td></tr>
-              <tr><td><span class="dish">Prosecco Zonin, 0,1 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="prosecco-glas" data-name="Prosecco Zonin, 0,1 l" data-price="260">2,60 €</button></td></tr>
-              <tr><td><span class="dish">Prosecco Zonin, 0,75 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="prosecco-flasche" data-name="Prosecco Zonin, 0,75 l" data-price="1400">14,00 €</button></td></tr>
-              <tr><td><span class="dish">Sekt-Orange, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="sekt" data-name="Sekt-Orange, 0,2 l" data-price="310">3,10 €</button></td></tr>
-              <tr><td><span class="dish">Ramazzotti, 4 cl</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="ramazzotti" data-name="Ramazzotti, 4 cl" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Baileys Original, 4 cl</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="baileys" data-name="Baileys Original, 4 cl" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Salzgeber Likör, 2 cl</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="salz-likoer" data-name="Salzgeber Likör, 2 cl" data-price="290">2,90 €</button></td></tr>
-              <tr><td><span class="dish">Salzgeber Brand, 2 cl</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="salz-brand" data-name="Salzgeber Brand, 2 cl" data-price="290">2,90 €</button></td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="group" id="wein">
-          <h2>Wein</h2>
-          <table>
-            <thead><tr><th>Gericht</th><th class="price">Preis</th></tr></thead>
-            <tbody>
-              <tr><td><span class="dish">Cavit Merlot Trentino, trocken, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="merlot" data-name="Cavit Merlot Trentino, 0,2 l" data-note="kräftig" data-price="370">3,70 €</button></td></tr>
-              <tr><td><span class="dish">Württenberg Cuvée Lounge rot, trocken, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="rot-lounge" data-name="Württenberg Cuvée Lounge rot, 0,2 l" data-note="mild" data-price="350">3,50 €</button></td></tr>
-              <tr><td><span class="dish">Rotwein, Flasche 0,75 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="rot-flasche" data-name="Rotwein, Flasche 0,75 l" data-price="1100">11,00 €</button></td></tr>
-              <tr><td><span class="dish">Pinot Grigio, trocken, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="pinot" data-name="Pinot Grigio, 0,2 l" data-note="fruchtig" data-price="350">3,50 €</button></td></tr>
-              <tr><td><span class="dish">Württenberg Cuvée Lounge weiß, halbtrocken, 0,2 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="weiss-lounge" data-name="Württenberg Cuvée Lounge weiß, 0,2 l" data-note="lebendig" data-price="350">3,50 €</button></td></tr>
-              <tr><td><span class="dish">Weißwein, Flasche 0,75 l</span></td><td class="price"><button type="button" class="pick" data-action="open" data-id="weiss-flasche" data-name="Weißwein, Flasche 0,75 l" data-price="1100">11,00 €</button></td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="hours" id="stunden">
-          <h2>Öffnungszeiten</h2>
-          <p class="note">Café Pfaffenhausen, Hauptstraße 17. Telefon 08265 7338860.</p>
-          <table>
-            <thead><tr><th>Tag</th><th class="price">Zeit</th></tr></thead>
-            <tbody>
-              <tr><td>Montag bis Freitag</td><td class="price">06:00 bis 17:30</td></tr>
-              <tr><td>Samstag</td><td class="price">06:00 bis 12:00</td></tr>
-              <tr><td>Sonntag</td><td class="price">geschlossen</td></tr>
-            </tbody>
-          </table>
-        </section>
-        <section class="hours">
-          <h2>Stammhaus Stetten</h2>
-          <p class="note">Hauptstraße 24, 87778 Stetten. Telefon 08261 9371. Die Preise oben sind die veröffentlichte Karte des Cafés.</p>
-          <table>
-            <thead><tr><th>Tag</th><th class="price">Zeit</th></tr></thead>
-            <tbody>
-              <tr><td>Montag bis Freitag</td><td class="price">06:00 bis 12:30, 14:00 bis 18:00</td></tr>
-              <tr><td>Samstag</td><td class="price">06:15 bis 12:00</td></tr>
-              <tr><td>Sonntag</td><td class="price">geschlossen</td></tr>
-            </tbody>
-          </table>
-        </section>
-        <ul class="legend">
-          <li>1 mit Farbstoffen</li>
-          <li>2 mit Konservierungsstoffen</li>
-          <li>3 mit Antioxidationsmittel</li>
-          <li>4 mit Geschmacksverstärker</li>
-          <li>5 mit Schwefeloxid</li>
-          <li>6 mit Schwärzungsmittel</li>
-          <li>7 mit Phosphat</li>
-          <li>8 mit Milcheiweiß</li>
-          <li>9 koffeinhaltig</li>
-          <li>10 chininhaltig</li>
-          <li>11 mit Süßungsmittel</li>
-          <li>12 Phenylalminquelle</li>
-          <li>13 gewachst</li>
-          <li>14 Taurin</li>
-          <li>15 mit Nitritpökelsalz</li>
-        </ul>
-      </main>
-      <aside aria-label="Bestellung">
+      <main id="menu"></main>
+      <aside aria-label="Ihre Bestellung">
         <div id="slip"></div>
       </aside>
     </div>
   </div>
-  <dialog id="sheet" aria-labelledby="sheet-title">
-    <h2 id="sheet-title">Gericht</h2>
-  </dialog>
-  <div id="live" class="visually-hidden" aria-live="polite"></div>
+  <dialog id="sheet"></dialog>
+  <div id="live" class="sr" aria-live="polite"></div>
   <script>
     const ADD = {
-      1: "mit Farbstoffen", 2: "mit Konservierungsstoffen", 3: "mit Antioxidationsmittel",
-      4: "mit Geschmacksverstärker", 5: "mit Schwefeloxid", 8: "mit Milcheiweiß",
-      9: "koffeinhaltig", 15: "mit Nitritpökelsalz",
+      1: "mit Farbstoffen",
+      2: "mit Konservierungsstoffen",
+      3: "mit Antioxidationsmittel",
+      4: "mit Geschmacksverstärker",
+      5: "mit Schwefeloxid",
+      6: "mit Schwärzungsmittel",
+      7: "mit Phosphat",
+      8: "mit Milcheiweiß",
+      9: "koffeinhaltig",
+      10: "chininhaltig",
+      11: "mit Süßungsmittel",
+      12: "Phenylalminquelle",
+      13: "gewachst",
+      14: "Taurin",
+      15: "mit Nitritpökelsalz",
     };
+
+    const photo = {
+      cap: "bilder/holm-cappuccino.jpg",
+      croissant: "bilder/holm-croissant.jpg",
+      kuchen: "bilder/holm-pflaume.jpg",
+      breze: "bilder/holm-lauge.jpg",
+      frueh: "bilder/holm-fruehstueck.jpg",
+    };
+
+    const categories = [
+      { id: "fruehstueck", label: "Frühstück", lead: "Heißgetränke extra. Stand 29. Januar 2022." },
+      { id: "dazu", label: "Dazu", lead: "Einzelne Zutaten zur Karte." },
+      { id: "kuchen", label: "Kuchentheke", lead: "Vom Stück." },
+      { id: "heiss", label: "Heißgetränke", lead: "Kaffee klein und groß auch entkoffeiniert." },
+      { id: "tee", label: "Tee", lead: "Die Tasse 2,60 €." },
+      { id: "kalt", label: "Getränke", lead: "Alle Säfte auch als Schorle, 0,5 l." },
+      { id: "alkohol", label: "Alkohol", lead: "Vom Glas und von der Flasche." },
+      { id: "wein", label: "Wein", lead: "Offen und als Flasche." },
+    ];
+
+    const items = [
+      { id: "morgen", cat: "fruehstueck", name: "„Guten Morgen“ Frühstück", desc: "1 Semmel, 1 Butter, 1 Fruchtaufstrich oder 1 Honig", price: 200, codes: [8] },
+      { id: "schmid", cat: "fruehstueck", name: "„Schmid“ Frühstück", desc: "Semmel, Mehrkornsemmel, Käse, Schinken, Salami, Aufstrich, Nutella, Butter", price: 650, codes: [1, 2, 3, 4, 8, 15], image: photo.frueh, feature: 1 },
+      { id: "spezial", cat: "fruehstueck", name: "„Schmid Spezial“ Frühstück", desc: "Semmel, Mehrkornsemmel, Kalbsleberwurst, Käse, Wurst, Müsli oder Obst, Orangensaft", price: 890, codes: [1, 2, 3, 4, 8, 15] },
+      { id: "maucher", cat: "fruehstueck", name: "„Maucher“ Frühstück", desc: "2 Semmel, Butter, Schinken, Salami, Kalbsleberwurst", price: 450, codes: [2, 7, 15] },
+      { id: "vital", cat: "fruehstueck", name: "„Vital“ Frühstück", desc: "Mehrkornsemmel, Sunnenweckle, Käse, Frischkäse, Müsli oder Obst, Orangensaft", price: 850, codes: [1, 3, 8] },
+      { id: "zwei", cat: "fruehstueck", name: "„Schlemmerei für Zwei“ Frühstück", desc: "Frühstück für zwei, wie auf der Karte", price: 2150, codes: [1, 2, 3, 4, 8, 15] },
+      { id: "storchen", cat: "fruehstueck", name: "„Storchen“ Frühstück", desc: "Semmel, Breze, Vollkornsemmel, Wurst, Käse, Tomate-Mozzarella", price: 890, codes: [1, 2, 3, 4, 5, 7, 8, 15] },
+      { id: "franzoesisch", cat: "fruehstueck", name: "„Französisches“ Frühstück", desc: "2 Croissants, Honig, Aufstrich, Butter, Orangensaft", price: 650, codes: [1, 2, 3, 8], image: photo.croissant },
+      { id: "bayerisch", cat: "fruehstueck", name: "„Bayerisches“ Frühstück", desc: "1 Paar Weißwürste, 1 Breze, süßer Senf", price: 490, codes: [4, 7], days: [5, 6] },
+      { id: "aufstrich", cat: "dazu", name: "Fruchtaufstrich", desc: "1 Portion", price: 90 },
+      { id: "honig", cat: "dazu", name: "Honig oder Nutella", desc: "1 Portion", price: 80, codes: [3, 8] },
+      { id: "butter", cat: "dazu", name: "Butter", desc: "1 Stück", price: 80 },
+      { id: "leberwurst", cat: "dazu", name: "Kalbsleberwurst", desc: "1 Stück", price: 90, codes: [2, 8] },
+      { id: "schinken", cat: "dazu", name: "Schinken, roh und gekocht", desc: "1 Portion", price: 210, codes: [2, 3, 15] },
+      { id: "salami", cat: "dazu", name: "Salami", desc: "1 Portion", price: 210, codes: [2, 3, 4] },
+      { id: "muesli", cat: "dazu", name: "Bircher Müsli", desc: "1 Portion", price: 290 },
+      { id: "obst", cat: "dazu", name: "Obstsalat", desc: "1 Portion", price: 270 },
+      { id: "kaese", cat: "dazu", name: "Käse", desc: "1 Portion", price: 210, codes: [1] },
+      { id: "frischkaese", cat: "dazu", name: "Frischkäse", desc: "1 Portion", price: 90 },
+      { id: "tomate", cat: "dazu", name: "Tomate-Mozzarella", desc: "1 Portion", price: 210, codes: [1, 3, 5, 8] },
+      { id: "lachs", cat: "dazu", name: "Lachs mit Sahnemeerrettich", desc: "1 Portion", price: 390, codes: [3] },
+      { id: "ruehrei", cat: "dazu", name: "Rührei mit Speck", desc: "1 Portion", price: 310 },
+      { id: "ei", cat: "dazu", name: "Gekochtes Ei", desc: "1 Stück", price: 120 },
+      { id: "oj", cat: "dazu", name: "Orangensaft, 0,2 l", desc: "Frisch gepresst", price: 250 },
+      { id: "semmel", cat: "dazu", name: "Semmel", desc: "1 Stück", price: 60 },
+      { id: "breze", cat: "dazu", name: "Breze", desc: "1 Stück", price: 100, image: photo.breze },
+      { id: "mehrkorn", cat: "dazu", name: "Mehrkornsemmel", desc: "1 Stück", price: 100 },
+      { id: "croissant", cat: "dazu", name: "Croissant", desc: "1 Stück", price: 160, image: photo.croissant, feature: 2 },
+      { id: "butterbreze", cat: "dazu", name: "Butterbreze", desc: "1 Stück", price: 180, image: photo.breze },
+      { id: "kuchen", cat: "kuchen", name: "Kuchen, gebacken", desc: "Vom Stück", price: 290 },
+      { id: "sahne", cat: "kuchen", name: "Sahnetorte", desc: "Vom Stück", price: 310 },
+      { id: "butterkrem", cat: "kuchen", name: "Butterkremtorte", desc: "Vom Stück", price: 310 },
+      { id: "prinz", cat: "kuchen", name: "Prinzregententorte", desc: "Vom Stück", price: 320 },
+      { id: "sacher", cat: "kuchen", name: "Sachertorte", desc: "Vom Stück", price: 310 },
+      { id: "obstkuchen", cat: "kuchen", name: "Obstkuchen", desc: "Vom Stück", price: 290, image: photo.kuchen, feature: 3 },
+      { id: "roulade", cat: "kuchen", name: "Sahne- oder Butterkremroulade", desc: "Vom Stück", price: 290 },
+      { id: "plunder", cat: "kuchen", name: "Plundergebäck", desc: "Vom Stück", price: 190 },
+      { id: "kaffee-klein", cat: "heiss", name: "Kaffee klein", desc: "Auch entkoffeiniert", price: 220, codes: [9], option: "koffein" },
+      { id: "kaffee-gross", cat: "heiss", name: "Kaffee groß", desc: "Auch entkoffeiniert", price: 290, codes: [9], option: "koffein" },
+      { id: "cap-klein", cat: "heiss", name: "Cappuccino klein", desc: "Tasse", price: 260, codes: [9], image: photo.cap },
+      { id: "cap-gross", cat: "heiss", name: "Cappuccino groß", desc: "Tasse", price: 340, codes: [9], image: photo.cap },
+      { id: "milchkaffee", cat: "heiss", name: "Milchkaffee", desc: "Tasse", price: 290, codes: [9] },
+      { id: "latte", cat: "heiss", name: "Latte Macchiato", desc: "Glas", price: 310, codes: [9] },
+      { id: "macchiato", cat: "heiss", name: "Espresso Macchiato", desc: "Kurze Tasse", price: 280, codes: [9] },
+      { id: "espresso", cat: "heiss", name: "Espresso", desc: "Kurze Tasse", price: 180, codes: [9] },
+      { id: "espresso-doppelt", cat: "heiss", name: "Espresso doppelt", desc: "Kurze Tasse", price: 290, codes: [9] },
+      { id: "schoko", cat: "heiss", name: "Heiße Schokolade", desc: "Tasse", price: 280 },
+      { id: "milch-honig", cat: "heiss", name: "Heiße Milch mit Honig", desc: "Tasse", price: 190 },
+      { id: "darjeeling", cat: "tee", name: "Darjeeling Royal Second Flash", desc: "Tasse", price: 260 },
+      { id: "assam", cat: "tee", name: "Assam Special Broken", desc: "Tasse", price: 260 },
+      { id: "gruen", cat: "tee", name: "Grüntee Asia Superior", desc: "Tasse", price: 260 },
+      { id: "kraeuter", cat: "tee", name: "Kräutergarten", desc: "Tasse", price: 260 },
+      { id: "minze", cat: "tee", name: "Pfefferminz", desc: "Tasse", price: 260 },
+      { id: "rooibos", cat: "tee", name: "Rooibas Vanilla", desc: "Tasse", price: 260 },
+      { id: "apfeltee", cat: "tee", name: "Apfel Früchte", desc: "Tasse", price: 260 },
+      { id: "beeren", cat: "tee", name: "Sommerbeeren", desc: "Tasse", price: 260 },
+      { id: "saison", cat: "tee", name: "Tee der Saison", desc: "Tasse", price: 260 },
+      { id: "orange7", cat: "tee", name: "Orange 7 Vitamine", desc: "Tasse", price: 260 },
+      { id: "kamille", cat: "tee", name: "Kamille", desc: "Tasse", price: 260 },
+      { id: "kamin", cat: "tee", name: "Kaminfeuer", desc: "Tasse", price: 260 },
+      { id: "cola", cat: "kalt", name: "Coca-Cola, 0,33 l", desc: "Flasche", price: 200, codes: [1, 9] },
+      { id: "fanta", cat: "kalt", name: "Fanta Orange, 0,33 l", desc: "Flasche", price: 200, codes: [1, 3] },
+      { id: "spezi", cat: "kalt", name: "Spezi Paulaner, 0,5 l", desc: "Flasche", price: 240, codes: [1, 3, 9] },
+      { id: "naturell", cat: "kalt", name: "Adelholzener Naturell, 0,3 l", desc: "Flasche", price: 200 },
+      { id: "classic", cat: "kalt", name: "Adelholzener Classic, 0,3 l", desc: "Flasche", price: 200 },
+      { id: "flasche", cat: "kalt", name: "Adelholzener, Flasche 0,75 l", desc: "Flasche", price: 350 },
+      { id: "apfelsaft", cat: "kalt", name: "Apfelsaft, klar, 0,2 l", desc: "Glas", price: 190 },
+      { id: "multi", cat: "kalt", name: "Multivitaminsaft, 0,2 l", desc: "Glas", price: 190 },
+      { id: "johannis", cat: "kalt", name: "Johannisbeer-Nektar, 0,2 l", desc: "Glas", price: 190 },
+      { id: "oj-karte", cat: "kalt", name: "Frisch gepresster Orangensaft, 0,2 l", desc: "Glas", price: 250 },
+      { id: "schorle", cat: "kalt", name: "Saftschorle, 0,5 l", desc: "Alle Säfte", price: 310 },
+      { id: "export", cat: "alkohol", name: "Export, Storchenbräu, 0,5 l", desc: "Glas", price: 280 },
+      { id: "hell", cat: "alkohol", name: "Bayrisch hell, Storchenbräu, 0,5 l", desc: "Glas", price: 280 },
+      { id: "weiss", cat: "alkohol", name: "Hefeweissbier, Franziskaner, 0,5 l", desc: "Glas", price: 290 },
+      { id: "weiss-frei", cat: "alkohol", name: "Hefeweissbier alkoholfrei, 0,5 l", desc: "Glas", price: 290 },
+      { id: "russ", cat: "alkohol", name: "Russ, 0,5 l", desc: "Glas", price: 290 },
+      { id: "radler", cat: "alkohol", name: "Radler, 0,5 l", desc: "Glas", price: 280 },
+      { id: "hugo", cat: "alkohol", name: "Hugo", desc: "Glas", price: 450 },
+      { id: "aperol", cat: "alkohol", name: "Aperol Spritz", desc: "Glas", price: 450 },
+      { id: "prosecco-glas", cat: "alkohol", name: "Prosecco Zonin, 0,1 l", desc: "Glas", price: 260 },
+      { id: "prosecco-flasche", cat: "alkohol", name: "Prosecco Zonin, 0,75 l", desc: "Flasche", price: 1400 },
+      { id: "sekt", cat: "alkohol", name: "Sekt-Orange, 0,2 l", desc: "Glas", price: 310 },
+      { id: "ramazzotti", cat: "alkohol", name: "Ramazzotti, 4 cl", desc: "Glas", price: 290 },
+      { id: "baileys", cat: "alkohol", name: "Baileys Original, 4 cl", desc: "Glas", price: 290 },
+      { id: "salz-likoer", cat: "alkohol", name: "Salzgeber Likör, 2 cl", desc: "Glas", price: 290 },
+      { id: "salz-brand", cat: "alkohol", name: "Salzgeber Brand, 2 cl", desc: "Glas", price: 290 },
+      { id: "merlot", cat: "wein", name: "Cavit Merlot Trentino, 0,2 l", desc: "Trocken, kräftig", price: 370 },
+      { id: "rot-lounge", cat: "wein", name: "Württenberg Cuvée Lounge rot, 0,2 l", desc: "Trocken, mild", price: 350 },
+      { id: "rot-flasche", cat: "wein", name: "Rotwein, Flasche 0,75 l", desc: "Flasche", price: 1100 },
+      { id: "pinot", cat: "wein", name: "Pinot Grigio, 0,2 l", desc: "Trocken, fruchtig", price: 350 },
+      { id: "weiss-lounge", cat: "wein", name: "Württenberg Cuvée Lounge weiß, 0,2 l", desc: "Halbtrocken, lebendig", price: 350 },
+      { id: "weiss-flasche", cat: "wein", name: "Weißwein, Flasche 0,75 l", desc: "Flasche", price: 1100 },
+    ];
+
     let cart = [];
     let receipt = null;
     let nextNo = 18;
     let seq = 1;
     let draft = null;
+
     const sheet = document.getElementById("sheet");
     const menuEl = document.getElementById("menu");
     const slipEl = document.getElementById("slip");
     const live = document.getElementById("live");
-    const cats = document.getElementById("cats");
+
     const euro = (cents) => `${(cents / 100).toFixed(2).replace(".", ",")}\u00a0€`;
     const esc = (value) => String(value).replace(/[&<>"']/g, (ch) => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
     }[ch]));
+    const itemById = (id) => items.find((item) => item.id === id);
+    const closedToday = (item) => item.days && !item.days.includes(new Date().getDay());
 
-    function itemFrom(button) {
-      const codes = (button.dataset.codes || "").split(",").filter(Boolean).map(Number);
-      const days = button.dataset.days ? button.dataset.days.split(",").map(Number) : null;
+    function paintClock() {
+      const now = new Date();
+      const day = now.toLocaleDateString("de-DE", { weekday: "short" });
+      const time = now.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+      const closed = now.getDay() === 0 ? ", Café zu" : "";
+      document.getElementById("clock").textContent = `${day} ${time}${closed}`;
+    }
+
+    function defaults(item) {
+      return item.option === "koffein" ? { koffein: "mit" } : {};
+    }
+
+    function extra(item, selected) {
+      if (item.option !== "koffein") return { note: "", codes: item.codes || [] };
+      const decaf = selected.koffein === "ohne";
+      const codes = decaf ? (item.codes || []).filter((code) => code !== 9) : [...new Set([...(item.codes || []), 9])];
+      return { note: decaf ? "entkoffeiniert" : "", codes };
+    }
+
+    function lineView(line) {
+      const item = itemById(line.id);
+      const picked = extra(item, line.selected);
       return {
-        id: button.dataset.id,
-        name: button.dataset.name,
-        note: button.dataset.note || "",
-        price: Number(button.dataset.price),
-        codes,
-        days,
-        option: button.dataset.option || "",
+        name: item.name,
+        note: picked.note,
+        qty: line.qty,
+        amount: item.price * line.qty,
       };
     }
-    function buttonFor(id) {
-      return document.querySelector(`.pick[data-id="${id}"]`);
+
+    function thumb(item) {
+      if (item.image) return `<img src="${item.image}" alt="" />`;
+      return `<span class="mono" aria-hidden="true">${esc(item.name.replace(/^[„"]/, "").slice(0, 1))}</span>`;
     }
-    function choicesFor(item, selected) {
-      if (item.option !== "koffein") return { note: item.note, codes: item.codes };
-      const decaf = selected.koffein === "ohne";
-      const codes = decaf ? item.codes.filter((code) => code !== 9) : [...new Set([...item.codes, 9])];
-      const note = [item.note, decaf ? "entkoffeiniert" : ""].filter(Boolean).join(", ");
-      return { note, codes };
+
+    function featureCard(item) {
+      const off = closedToday(item);
+      return `<button type="button" class="feature" data-action="open" data-id="${item.id}" ${off ? "disabled" : ""}>
+        <img src="${item.image}" alt="" />
+        <span class="fn">
+          <span class="ft">${esc(item.name)}</span>
+          <span class="fp">${off ? "Freitag, Samstag" : euro(item.price)}</span>
+        </span>
+        <span class="fd">${esc(item.desc)}</span>
+      </button>`;
     }
-    function lineView(line) {
-      const button = buttonFor(line.id);
-      const item = itemFrom(button);
-      const extra = choicesFor(item, line.selected);
-      return { name: item.name, note: extra.note, qty: line.qty, amount: item.price * line.qty };
+
+    function row(item) {
+      const off = closedToday(item);
+      const codes = item.codes || [];
+      return `<button type="button" class="item" data-action="open" data-id="${item.id}" ${off ? "disabled" : ""}>
+        <span class="thumb">${thumb(item)}</span>
+        <span>
+          <span class="name">${esc(item.name)}</span>
+          <span class="desc">${esc(item.desc)}</span>
+          ${codes.length ? `<span class="all">${codes.join(", ")}</span>` : ""}
+        </span>
+        <span class="price">${off ? "Freitag, Samstag" : euro(item.price)}</span>
+      </button>`;
     }
-    function say(text) {
-      live.textContent = "";
-      live.textContent = text;
+
+    function renderMenu() {
+      document.getElementById("cats").innerHTML = categories.map((cat) =>
+        `<button type="button" data-action="nav" data-cat="${cat.id}">${esc(cat.label)}</button>`
+      ).join("");
+      const featured = items.filter((item) => item.feature).sort((a, b) => a.feature - b.feature);
+      const legend = Object.entries(ADD).map(([code, name]) => `${code} ${name}`).join(". ");
+      menuEl.innerHTML = categories.map((cat) => {
+        const cards = cat.id === "fruehstueck" ? featured.map(featureCard).join("") : "";
+        const rows = items.filter((item) => item.cat === cat.id && !(cat.id === "fruehstueck" && item.feature)).map(row).join("");
+        return `<section class="section" id="${cat.id}">
+          <h2>${esc(cat.label)}</h2>
+          <p class="lead">${esc(cat.lead)}</p>
+          ${cards ? `<div class="features">${cards}</div>` : ""}
+          <div class="rows">${rows}</div>
+        </section>`;
+      }).join("") + `<p class="legend">${esc(legend)}. Café Pfaffenhausen, Hauptstraße 17: Montag bis Freitag 6 bis 17:30, Samstag 6 bis 12, Sonntag zu. Stammhaus Stetten, Hauptstraße 24: Montag bis Freitag 6 bis 12:30 und 14 bis 18, Samstag 6:15 bis 12, Sonntag zu. Die Preise sind die veröffentlichte Café-Karte.</p>`;
     }
+
     function setCurrent(id) {
       for (const button of document.querySelectorAll(".rail button")) {
         if (button.dataset.cat === id) button.setAttribute("aria-current", "true");
         else button.removeAttribute("aria-current");
       }
     }
+
     function renderSheet() {
-      const button = buttonFor(draft.id);
-      const item = itemFrom(button);
-      const picked = choicesFor(item, draft.selected);
+      const item = itemById(draft.id);
+      const picked = extra(item, draft.selected);
+      const words = picked.codes.map((code) => ADD[code]).filter(Boolean).join(", ");
       const koffein = item.option === "koffein" ? `
         <fieldset>
           <legend>Koffein</legend>
@@ -564,45 +711,61 @@
             <button type="button" data-action="pick" data-group="koffein" data-choice="ohne" aria-pressed="${draft.selected.koffein === "ohne"}">Entkoffeiniert</button>
           </div>
         </fieldset>` : "";
-      const words = picked.codes.map((code) => ADD[code]).filter(Boolean).join(", ");
       sheet.innerHTML = `
-        <div class="sheet-top">
-          <h2 id="sheet-title">${esc(item.name)}</h2>
-          <button type="button" data-action="close">Schließen</button>
-        </div>
-        ${item.note ? `<p class="detail">${esc(item.note)}</p>` : ""}
-        ${words ? `<p class="codes">${esc(words)}</p>` : ""}
-        ${koffein}
-        <div class="sheet-actions">
-          <div class="stepper">
-            <button type="button" data-action="qty" data-dir="-1" aria-label="weniger">−</button>
-            <span>${draft.qty}</span>
-            <button type="button" data-action="qty" data-dir="1" aria-label="mehr">+</button>
+        <div class="sheet ${item.image ? "has-photo" : ""}">
+          ${item.image ? `<div class="sheet-photo"><img src="${item.image}" alt="" /></div>` : ""}
+          <div class="sheet-copy">
+            <div class="sheet-top">
+              <h2 id="sheet-title">${esc(item.name)}</h2>
+              <button type="button" data-action="close">Schließen</button>
+            </div>
+            <p class="desc">${esc(item.desc)}</p>
+            ${words ? `<p class="all full">${esc(words)}</p>` : ""}
+            ${koffein}
+            <div class="sheet-actions">
+              <div class="stepper">
+                <button type="button" data-action="qty" data-dir="-1" aria-label="weniger">−</button>
+                <span>${draft.qty}</span>
+                <button type="button" data-action="qty" data-dir="1" aria-label="mehr">+</button>
+              </div>
+              <button type="button" class="add" data-action="add">Hinzufügen · ${euro(item.price * draft.qty)}</button>
+            </div>
           </div>
-          <button type="button" class="add" data-action="add">Hinzufügen, ${euro(item.price * draft.qty)}</button>
         </div>`;
     }
+
     function lineHtml(line, withStepper) {
       const stepper = withStepper ? `
         <span class="stepper">
           <button type="button" data-action="dec" data-uid="${line.uid}" aria-label="weniger ${esc(line.name)}">−</button>
           <span>${line.qty}</span>
           <button type="button" data-action="inc" data-uid="${line.uid}" aria-label="mehr ${esc(line.name)}">+</button>
-        </span>` : `<span>${line.qty}×</span>`;
-      return `<li>${stepper}<span><span class="ln">${esc(line.name)}</span>${line.note ? `<span class="ld">${esc(line.note)}</span>` : ""}</span><span class="lp">${euro(line.amount)}</span></li>`;
+        </span>
+      ` : `<span class="q">${line.qty}×</span>`;
+      return `<li>
+        ${stepper}
+        <span>
+          <span class="ln">${esc(line.name)}</span>
+          ${line.note ? `<span class="ld">${esc(line.note)}</span>` : ""}
+        </span>
+        <span class="lp">${euro(line.amount)}</span>
+      </li>`;
     }
+
     function renderSlip() {
       if (receipt) {
         slipEl.innerHTML = `
           <div class="slip-body">
-            <p>An der Theke</p>
+            <p class="kicker">An der Theke</p>
             <h2 class="order-no">${receipt.no}</h2>
-            <p class="detail">Tisch 7, zahlen Sie an der Kasse</p>
+            <p class="where">Tisch 7 · zahlen Sie an der Kasse</p>
             <ul class="lines">${receipt.lines.map((line) => lineHtml(line, false)).join("")}</ul>
             <p class="total"><span>Summe</span><span>${euro(receipt.total)}</span></p>
-            <p class="detail">Wir bringen es an den Tisch.</p>
+            <p class="bring">Wir bringen es an den Tisch.</p>
           </div>
-          <div class="slip-foot"><button type="button" class="send" data-action="reset">Neue Bestellung</button></div>`;
+          <div class="slip-foot">
+            <button type="button" class="send" data-action="reset">Neue Bestellung</button>
+          </div>`;
         return;
       }
       const lines = cart.map((line) => ({ uid: line.uid, ...lineView(line) }));
@@ -610,58 +773,70 @@
       const count = lines.reduce((sum, line) => sum + line.qty, 0);
       slipEl.innerHTML = `
         <div class="slip-body">
-          <p>Bestellung</p>
+          <p class="kicker">Bestellung</p>
           <h2 class="slip-title">${count ? `${count} gewählt` : "Noch leer"}</h2>
-          ${lines.length ? `<ul class="lines">${lines.map((line) => lineHtml(line, true)).join("")}</ul><p class="total"><span>Summe</span><span>${euro(total)}</span></p>` : `
+          ${lines.length ? `
+            <ul class="lines">${lines.map((line) => lineHtml(line, true)).join("")}</ul>
+            <p class="total"><span>Summe</span><span>${euro(total)}</span></p>
+          ` : `
             <ol class="how">
-              <li>Gericht wählen</li>
-              <li>An die Theke schicken</li>
-              <li>An der Kasse zahlen</li>
+              <li><span>1</span>Gericht wählen</li>
+              <li><span>2</span>An die Theke schicken</li>
+              <li><span>3</span>An der Kasse zahlen</li>
             </ol>
-            <p class="detail">Wir bringen alles an Tisch 7.</p>`}
+            <p class="how-note">Wir bringen alles an Tisch 7.</p>
+          `}
         </div>
         <div class="slip-foot">
           <button type="button" class="send" data-action="send" ${lines.length ? "" : "disabled"}>An die Theke schicken</button>
           <p class="fine">Gezahlt wird an der Kasse.</p>
         </div>`;
     }
+
+    function say(text) {
+      live.textContent = "";
+      live.textContent = text;
+    }
+
     function openItem(id) {
-      const button = buttonFor(id);
-      if (!button || button.disabled) return;
-      if (receipt) receipt = null;
-      draft = { id, qty: 1, selected: { koffein: "mit" } };
+      const item = itemById(id);
+      if (!item || closedToday(item)) return;
+      if (receipt) {
+        receipt = null;
+        renderSlip();
+      }
+      draft = { id, qty: 1, selected: defaults(item) };
       renderSheet();
       if (!sheet.open) sheet.showModal();
     }
+
     function addDraft() {
-      const item = itemFrom(buttonFor(draft.id));
-      cart.push({ uid: `l${seq++}`, id: item.id, qty: draft.qty, selected: { ...draft.selected } });
+      const item = itemById(draft.id);
+      cart.push({
+        uid: `l${seq++}`,
+        id: item.id,
+        qty: draft.qty,
+        selected: { ...draft.selected },
+      });
       say(`${item.name} hinzugefügt`);
       draft = null;
       sheet.close();
       renderSlip();
     }
+
     function sendOrder() {
       if (!cart.length) return;
       const lines = cart.map(lineView);
-      receipt = { no: nextNo++, lines, total: lines.reduce((sum, line) => sum + line.amount, 0) };
+      receipt = {
+        no: nextNo++,
+        lines,
+        total: lines.reduce((sum, line) => sum + line.amount, 0),
+      };
       cart = [];
       say(`Bestellung ${receipt.no} ist an der Theke`);
       renderSlip();
     }
-    function applyDay() {
-      const day = new Date().getDay();
-      const names = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-      const clock = new Intl.DateTimeFormat("de-DE", { hour: "2-digit", minute: "2-digit" }).format(new Date());
-      const today = document.getElementById("today");
-      today.textContent = day === 0 ? `${names[day]}, Café geschlossen. Tisch 7` : `${names[day]} ${clock}, Tisch 7`;
-      for (const button of document.querySelectorAll(".pick[data-days]")) {
-        const days = button.dataset.days.split(",").map(Number);
-        const open = days.includes(day);
-        button.disabled = !open;
-        if (!open) button.textContent = "Freitag, Samstag";
-      }
-    }
+
     document.addEventListener("click", (event) => {
       const button = event.target.closest("[data-action]");
       if (!button) return;
@@ -669,38 +844,54 @@
       if (action === "nav") {
         setCurrent(button.dataset.cat);
         document.getElementById(button.dataset.cat)?.scrollIntoView({ behavior: "smooth", block: "start" });
-        history.replaceState(null, "", `#${button.dataset.cat}`);
-      } else if (action === "open") openItem(button.dataset.id);
-      else if (action === "pick") {
+      } else if (action === "open") {
+        openItem(button.dataset.id);
+      } else if (action === "pick") {
         draft.selected[button.dataset.group] = button.dataset.choice;
         renderSheet();
       } else if (action === "qty") {
         draft.qty = Math.max(1, Math.min(9, draft.qty + Number(button.dataset.dir)));
         renderSheet();
-      } else if (action === "add") addDraft();
-      else if (action === "close") sheet.close();
-      else if (action === "inc" || action === "dec") {
+      } else if (action === "add") {
+        addDraft();
+      } else if (action === "close") {
+        sheet.close();
+      } else if (action === "inc" || action === "dec") {
         const line = cart.find((entry) => entry.uid === button.dataset.uid);
         if (!line) return;
         line.qty += action === "inc" ? 1 : -1;
         if (line.qty <= 0) cart = cart.filter((entry) => entry.uid !== line.uid);
         else line.qty = Math.min(9, line.qty);
         renderSlip();
-      } else if (action === "send") sendOrder();
-      else if (action === "reset") { receipt = null; renderSlip(); }
+      } else if (action === "send") {
+        sendOrder();
+      } else if (action === "reset") {
+        receipt = null;
+        renderSlip();
+      }
     });
-    sheet.addEventListener("click", (event) => { if (event.target === sheet) sheet.close(); });
+
+    sheet.addEventListener("click", (event) => {
+      if (event.target === sheet) sheet.close();
+    });
     sheet.addEventListener("close", () => { draft = null; });
-    applyDay();
+
+    paintClock();
+    renderMenu();
     renderSlip();
     setCurrent("fruehstueck");
+
     const observer = new IntersectionObserver((entries) => {
-      const hit = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      const hit = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (hit) setCurrent(hit.target.id);
     }, { root: menuEl, threshold: 0.35 });
-    for (const button of cats.querySelectorAll("button")) observer.observe(document.getElementById(button.dataset.cat));
-    if ("serviceWorker" in navigator && window.isSecureContext) navigator.serviceWorker.register("sw.js").catch(() => {});
-    if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+    for (const cat of categories) observer.observe(document.getElementById(cat.id));
+
+    if ("serviceWorker" in navigator && window.isSecureContext) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
   </script>
 </body>
 </html>
