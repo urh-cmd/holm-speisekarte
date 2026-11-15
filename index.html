@@ -707,7 +707,12 @@
     }
 
     function blurb(item) {
-      if (item.parts && item.parts.length) return item.parts.join(", ");
+      if (item.parts && item.parts.length) {
+        const parts = item.cat === "fruehstueck"
+          ? item.parts.map((part) => part.replace(/^1 /, ""))
+          : item.parts;
+        return parts.join(", ");
+      }
       return [item.size, item.hint].filter(Boolean).join(", ");
     }
 
