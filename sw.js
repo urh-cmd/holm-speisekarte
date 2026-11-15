@@ -1,9 +1,11 @@
-const CACHE = "schmid-karte-2";
+const CACHE = "schmid-karte-3";
 const FILES = [
   "./index.html",
   "./sw.js",
   "./fonts/fraunces.woff2",
   "./fonts/outfit.woff2",
+  "./bilder/logo-black.png",
+  "./bilder/logo-aehre.png",
   "./bilder/holm-cappuccino.jpg",
   "./bilder/holm-croissant.jpg",
   "./bilder/holm-fruehstueck.jpg",
