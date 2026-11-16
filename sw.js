@@ -1,4 +1,4 @@
-const CACHE = "schmid-karte-20";
+const CACHE = "schmid-karte-21";
 const FILES = [
   "./index.html",
   "./sw.js",

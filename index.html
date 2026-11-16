@@ -136,19 +136,6 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
     }
-    .afternoon {
-      min-height: 36px;
-      padding: 7px 12px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      font-size: 14px;
-    }
-    .afternoon[aria-pressed="true"] {
-      background: var(--bar-paper);
-      border-color: var(--bar-paper);
-      color: var(--bar-ink);
-    }
     .stage {
       display: grid;
       grid-template-columns: 220px minmax(0, 1fr) 308px;
@@ -653,7 +640,6 @@
       </h1>
       <div class="head-meta">
         <time id="clock">Sonntag</time>
-        <button type="button" class="afternoon" data-action="afternoon" aria-pressed="false">Nachmittag</button>
         <span class="ticket">Tisch 7</span>
       </div>
     </header>
@@ -712,7 +698,7 @@
       { id: "kuchen", label: "Kuchentheke", lead: "Vom Stück." },
       { id: "heiss", label: "Café und Tee", lead: "Kaffee klein und groß auch ohne Koffein. Jede Teesorte zum gleichen Preis." },
       { id: "kalt", label: "Getränke", lead: "Alle Säfte auch als Schorle, 0,5 l." },
-      { id: "alkohol", label: "Bier, Wein & Cocktails", lead: "Wein im Glas 0,2 l oder als Flasche 0,75 l." },
+      { id: "alkohol", label: "Geschmackskarte", lead: "Wein im Glas 0,2 l oder als Flasche 0,75 l." },
     ];
 
     const items = [
@@ -964,7 +950,7 @@
         <div class="bar-map">
           <div class="bar-top">
             <div>
-              <h2>Nachmittag</h2>
+              <h2>Geschmackskarte</h2>
               <p>Herb oder süß, leicht oder gehaltvoll.</p>
             </div>
             <button type="button" class="bar-list" data-action="drink-view" data-view="liste">Liste</button>
@@ -981,11 +967,6 @@
           </div>
         </div>`;
       setCurrent("alkohol");
-      syncAfternoon();
-    }
-
-    function syncAfternoon() {
-      document.querySelector("[data-action=afternoon]")?.setAttribute("aria-pressed", menuEl.classList.contains("is-map") ? "true" : "false");
     }
 
     function renderMenu() {
@@ -1186,12 +1167,6 @@
       const action = button.dataset.action;
       if (action === "nav") {
         showCat(button.dataset.cat);
-      } else if (action === "afternoon") {
-        if (menuEl.classList.contains("is-map")) showCat("fruehstueck");
-        else {
-          drinkView = "karte";
-          showCat("alkohol");
-        }
       } else if (action === "filter") {
         drinkFilter = button.dataset.filter;
         renderMap();
@@ -1241,7 +1216,6 @@
         return;
       }
       if (menuEl.classList.contains("is-map")) renderMenu();
-      syncAfternoon();
       const section = document.getElementById(id);
       if (!section) return;
       navLock = true;
