@@ -47,6 +47,21 @@
       --accent: #7a332e;
       --serif: "Wix Madefor Display", ui-sans-serif, system-ui, sans-serif;
       --sans: "Wix Madefor Text", ui-sans-serif, system-ui, sans-serif;
+      --bar-paper: oklch(18% 0.018 55);
+      --bar-ink: oklch(95% 0.012 85);
+      --bar-muted: oklch(74% 0.018 75);
+      --bar-rule: oklch(34% 0.018 60);
+      --bar-accent: oklch(78% 0.11 72);
+      --bar-accent-ink: oklch(22% 0.03 55);
+      --tone-gold: oklch(82% 0.12 92);
+      --tone-amber: oklch(72% 0.13 68);
+      --tone-lemon: oklch(86% 0.14 102);
+      --tone-orange: oklch(70% 0.16 48);
+      --tone-leaf: oklch(74% 0.1 145);
+      --tone-pale: oklch(88% 0.04 95);
+      --tone-garnet: oklch(55% 0.14 25);
+      --tone-copper: oklch(66% 0.11 55);
+      --tone-cream: oklch(86% 0.04 85);
     }
     * { box-sizing: border-box; }
     html, body { height: 100%; }
@@ -120,6 +135,19 @@
       font-size: 12px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+    }
+    .afternoon {
+      min-height: 36px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      font-size: 14px;
+    }
+    .afternoon[aria-pressed="true"] {
+      background: var(--bar-paper);
+      border-color: var(--bar-paper);
+      color: var(--bar-ink);
     }
     .stage {
       display: grid;
@@ -484,8 +512,108 @@
         letter-spacing: -0.03em;
       }
     }
+    .to-map {
+      margin-top: 12px;
+      min-height: 44px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+    }
+    #menu.is-map { padding: 0; background: var(--bar-paper); }
+    .bar-map {
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      height: 100%;
+      padding: 16px 18px 14px;
+      background: var(--bar-paper);
+      color: var(--bar-ink);
+    }
+    .bar-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .bar-top h2 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 28px;
+      letter-spacing: -0.03em;
+    }
+    .bar-top p { margin-top: 2px; color: var(--bar-muted); font-size: 15px; }
+    .bar-list {
+      min-height: 44px;
+      padding: 0 14px;
+      border: 1px solid var(--bar-rule);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--bar-ink);
+    }
+    .bar-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .bar-filters button {
+      min-height: 40px;
+      padding: 6px 12px;
+      border: 1px solid var(--bar-rule);
+      border-radius: 999px;
+      background: transparent;
+      color: var(--bar-muted);
+      font-size: 14px;
+    }
+    .bar-filters button[aria-pressed="true"] {
+      background: var(--bar-accent);
+      border-color: var(--bar-accent);
+      color: var(--bar-accent-ink);
+    }
+    .plot {
+      position: relative;
+      min-height: 0;
+      margin-top: 12px;
+      border: 1px solid var(--bar-rule);
+    }
+    .plot::before, .plot::after {
+      content: "";
+      position: absolute;
+      background: var(--bar-rule);
+      pointer-events: none;
+    }
+    .plot::before { left: 50%; top: 28px; bottom: 28px; width: 1px; }
+    .plot::after { top: 50%; left: 64px; right: 64px; height: 1px; }
+    .ax {
+      position: absolute;
+      color: var(--bar-muted);
+      font-size: 13px;
+      pointer-events: none;
+    }
+    .ax-t { top: 8px; left: 50%; transform: translateX(-50%); }
+    .ax-b { bottom: 8px; left: 50%; transform: translateX(-50%); }
+    .ax-l { left: 8px; top: 50%; transform: translateY(-50%); }
+    .ax-r { right: 8px; top: 50%; transform: translateY(-50%); }
+    .glass {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 76px;
+      padding: 4px 0;
+      border: 0;
+      background: transparent;
+      color: var(--bar-ink);
+      opacity: 1;
+      transition: opacity 160ms ease;
+    }
+    .glass.is-dim { opacity: 0.14; }
+    .glass svg { display: block; width: 20px; height: 28px; margin: 0 auto; fill: currentColor; }
+    .glass .gname { display: block; margin-top: 3px; color: var(--bar-muted); font-size: 12px; line-height: 1.2; }
+    .glass:hover .gname, .glass:focus-visible .gname { color: var(--bar-ink); }
+    .tone-gold { color: var(--tone-gold); }
+    .tone-amber { color: var(--tone-amber); }
+    .tone-lemon { color: var(--tone-lemon); }
+    .tone-orange { color: var(--tone-orange); }
+    .tone-leaf { color: var(--tone-leaf); }
+    .tone-pale { color: var(--tone-pale); }
+    .tone-garnet { color: var(--tone-garnet); }
+    .tone-copper { color: var(--tone-copper); }
+    .tone-cream { color: var(--tone-cream); }
+    #sheet.bar { background: var(--bar-paper); color: var(--bar-ink); }
+    #sheet.bar .sheet-copy > .desc, #sheet.bar .sheet-top button { color: var(--bar-muted); }
+    #sheet.bar .add { background: var(--bar-accent); color: var(--bar-accent-ink); }
     @media (prefers-reduced-motion: reduce) {
       * { scroll-behavior: auto !important; }
+      .glass { transition: none; }
     }
   </style>
 </head>
@@ -499,6 +627,7 @@
       </h1>
       <div class="head-meta">
         <time id="clock">Sonntag</time>
+        <button type="button" class="afternoon" data-action="afternoon" aria-pressed="false">Nachmittag</button>
         <span class="ticket">Tisch 7</span>
       </div>
     </header>
@@ -655,11 +784,45 @@
       { id: "weiss-flasche", cat: "alkohol", name: "Weißwein", size: "Flasche 0,75 l", price: 1100 },
     ];
 
+    const spots = {
+      hell: { x: 20, y: 24, glass: "pils", tone: "gold", label: "Hell" },
+      export: { x: 30, y: 38, glass: "pils", tone: "amber", label: "Export" },
+      "prosecco-glas": { x: 36, y: 20, glass: "flute", tone: "pale", label: "Prosecco" },
+      pinot: { x: 40, y: 36, glass: "wein", tone: "pale", label: "Pinot" },
+      "weiss-lounge": { x: 56, y: 28, glass: "wein", tone: "gold", label: "Lounge weiß" },
+      radler: { x: 70, y: 20, glass: "pils", tone: "lemon", label: "Radler" },
+      russ: { x: 78, y: 36, glass: "weizen", tone: "lemon", label: "Russ" },
+      hugo: { x: 86, y: 24, glass: "spritz", tone: "leaf", label: "Hugo" },
+      aperol: { x: 84, y: 46, glass: "spritz", tone: "orange", label: "Aperol" },
+      sekt: { x: 64, y: 36, glass: "flute", tone: "orange", label: "Sekt-Orange" },
+      "weiss-frei": { x: 70, y: 64, glass: "weizen", tone: "cream", label: "Frei" },
+      weiss: { x: 46, y: 48, glass: "weizen", tone: "amber", label: "Franziskaner" },
+      "rot-lounge": { x: 24, y: 66, glass: "wein", tone: "garnet", label: "Lounge rot" },
+      merlot: { x: 36, y: 74, glass: "wein", tone: "garnet", label: "Merlot" },
+      "salz-brand": { x: 18, y: 82, glass: "shot", tone: "copper", label: "Brand" },
+      ramazzotti: { x: 40, y: 86, glass: "shot", tone: "copper", label: "Ramazzotti" },
+      "salz-likoer": { x: 68, y: 74, glass: "shot", tone: "amber", label: "Likör" },
+      baileys: { x: 82, y: 80, glass: "tumbler", tone: "cream", label: "Baileys" },
+    };
+
+    const glassSvg = {
+      pils: `<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M7 1h10l-.8 20.2A4.2 4.2 0 0 1 12 25.2a4.2 4.2 0 0 1-4.2-4L7 1z"/></svg>`,
+      weizen: `<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M8 1c1.4 5 1.2 9 .6 18.2A3.4 3.4 0 0 0 12 22.4a3.4 3.4 0 0 0 3.4-3.2C14.8 10 14.6 6 16 1H8z"/></svg>`,
+      spritz: `<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M5 2h14l-3.2 9.2a6 6 0 0 1-5.6 3.8 6 6 0 0 1-5.6-3.8L5 2zm6.2 14.2h1.6V24H16v2H8v-2h2.8v-7.8z"/></svg>`,
+      wein: `<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M6 1h12c-.2 6-2.2 9.2-4.4 10.6V24H16v2H8v-2h2.4V11.6C8.2 10.2 6.2 7 6 1z"/></svg>`,
+      flute: `<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M9 1h6l-.7 14H16v2h-3v8h3v2H8v-2h3v-8H8.7v-2h1.6L9 1z"/></svg>`,
+      tumbler: `<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M5 8h14l-1.2 14.2A3.6 3.6 0 0 1 14.3 25.6H9.7a3.6 3.6 0 0 1-3.5-3.4L5 8z"/></svg>`,
+      shot: `<svg viewBox="0 0 24 32" aria-hidden="true"><path d="M7 12h10l-.8 8.2A2.6 2.6 0 0 1 13.6 22.6h-3.2a2.6 2.6 0 0 1-2.6-2.4L7 12z"/></svg>`,
+    };
+
     let cart = [];
     let receipt = null;
     let nextNo = 18;
     let seq = 1;
     let draft = null;
+    let currentCat = "fruehstueck";
+    let drinkView = "karte";
+    let drinkFilter = "alles";
 
     const sheet = document.getElementById("sheet");
     const menuEl = document.getElementById("menu");
@@ -746,7 +909,61 @@
       </button>`;
     }
 
+    function drinkOn(spot) {
+      if (drinkFilter === "alles") return true;
+      if (drinkFilter === "frei") return spot.label === "Frei";
+      if (drinkFilter === "erfrischend") return spot.y < 45;
+      if (drinkFilter === "gehaltvoll") return spot.y > 58;
+      if (drinkFilter === "herb") return spot.x < 46;
+      if (drinkFilter === "suess") return spot.x > 58;
+      return true;
+    }
+
+    function renderMap() {
+      menuEl.classList.add("is-map");
+      const filters = [
+        ["alles", "Alles"],
+        ["erfrischend", "Erfrischend"],
+        ["herb", "Herb"],
+        ["suess", "Süß"],
+        ["gehaltvoll", "Gehaltvoll"],
+        ["frei", "Alkoholfrei"],
+      ];
+      const marks = Object.entries(spots).map(([id, spot]) => `
+        <button type="button" class="glass${drinkOn(spot) ? "" : " is-dim"}" data-action="open" data-id="${id}" style="left:${spot.x}%;top:${spot.y}%">
+          <span class="tone-${spot.tone}">${glassSvg[spot.glass]}</span>
+          <span class="gname">${esc(spot.label)}</span>
+        </button>`).join("");
+      menuEl.innerHTML = `
+        <div class="bar-map">
+          <div class="bar-top">
+            <div>
+              <h2>Nachmittag</h2>
+              <p>Herb oder süß, leicht oder gehaltvoll.</p>
+            </div>
+            <button type="button" class="bar-list" data-action="drink-view" data-view="liste">Liste</button>
+          </div>
+          <div class="bar-filters" role="group" aria-label="Geschmack">
+            ${filters.map(([id, label]) => `<button type="button" data-action="filter" data-filter="${id}" aria-pressed="${drinkFilter === id}">${label}</button>`).join("")}
+          </div>
+          <div class="plot">
+            <span class="ax ax-t">erfrischend</span>
+            <span class="ax ax-b">gehaltvoll</span>
+            <span class="ax ax-l">herb</span>
+            <span class="ax ax-r">süß</span>
+            ${marks}
+          </div>
+        </div>`;
+      setCurrent("alkohol");
+      syncAfternoon();
+    }
+
+    function syncAfternoon() {
+      document.querySelector("[data-action=afternoon]")?.setAttribute("aria-pressed", menuEl.classList.contains("is-map") ? "true" : "false");
+    }
+
     function renderMenu() {
+      menuEl.classList.remove("is-map");
       const nav = [...categories, { id: "zeiten", label: "Öffnungszeiten" }];
       document.getElementById("cats").innerHTML = nav.map((cat) =>
         `<button type="button" data-action="nav" data-cat="${cat.id}">${esc(cat.label)}</button>`
@@ -759,6 +976,7 @@
         return `<section class="section" id="${cat.id}">
           <h2>${esc(cat.label)}</h2>
           ${cat.lead ? `<p class="lead">${esc(cat.lead)}</p>` : ""}
+          ${cat.id === "alkohol" ? `<button type="button" class="to-map" data-action="drink-view" data-view="karte">Geschmackskarte</button>` : ""}
           ${cards ? `<div class="features">${cards}</div>` : ""}
           <div class="rows">${rows}</div>
         </section>`;
@@ -904,6 +1122,7 @@
         renderSlip();
       }
       draft = { id, qty: 1, selected: defaults(item) };
+      sheet.classList.toggle("bar", menuEl.classList.contains("is-map"));
       renderSheet();
       if (!sheet.open) sheet.showModal();
     }
@@ -941,6 +1160,19 @@
       const action = button.dataset.action;
       if (action === "nav") {
         showCat(button.dataset.cat);
+      } else if (action === "afternoon") {
+        if (menuEl.classList.contains("is-map")) showCat("fruehstueck");
+        else {
+          drinkView = "karte";
+          showCat("alkohol");
+        }
+      } else if (action === "filter") {
+        drinkFilter = button.dataset.filter;
+        renderMap();
+      } else if (action === "drink-view") {
+        drinkView = button.dataset.view;
+        if (drinkView === "karte") renderMap();
+        else showCat("alkohol");
       } else if (action === "open") {
         openItem(button.dataset.id);
       } else if (action === "pick") {
@@ -976,10 +1208,17 @@
     let navLock = false;
 
     function showCat(id) {
+      currentCat = id;
+      setCurrent(id);
+      if (id === "alkohol" && drinkView === "karte") {
+        renderMap();
+        return;
+      }
+      if (menuEl.classList.contains("is-map")) renderMenu();
+      syncAfternoon();
       const section = document.getElementById(id);
       if (!section) return;
       navLock = true;
-      setCurrent(id);
       menuEl.scrollTop = section.offsetTop;
       requestAnimationFrame(() => { navLock = false; });
     }
@@ -995,8 +1234,10 @@
     }
 
     menuEl.addEventListener("scroll", () => {
-      if (navLock) return;
-      setCurrent(catFromScroll());
+      if (navLock || menuEl.classList.contains("is-map")) return;
+      const id = catFromScroll();
+      currentCat = id;
+      setCurrent(id);
     }, { passive: true });
 
     paintClock();
