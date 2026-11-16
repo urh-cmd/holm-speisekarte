@@ -82,8 +82,9 @@
       width: min(1180px, calc(100vw - 48px));
       height: min(800px, calc(100dvh - 48px));
       background: var(--bg);
-      border: 12px solid #14110f;
-      border-radius: 22px;
+      border: 8px solid #1c1816;
+      border-radius: 28px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.38);
       display: grid;
       grid-template-rows: auto minmax(0, 1fr);
       overflow: hidden;
@@ -112,20 +113,22 @@
     .head-meta { display: flex; align-items: center; gap: 14px; }
     time { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 14px; }
     .ticket {
-      border: 1px solid var(--ink);
-      padding: 7px 10px 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 7px 12px 6px;
+      background: #fff;
       font-size: 12px;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
     .stage {
       display: grid;
-      grid-template-columns: 188px minmax(0, 1fr) 318px;
+      grid-template-columns: 220px minmax(0, 1fr) 308px;
       min-height: 0;
     }
     .rail {
-      border-right: 1px solid var(--line);
-      padding: 16px 12px 16px 14px;
+      background: #ebe4d8;
+      padding: 14px 10px;
       overflow: auto;
     }
     .kicker {
@@ -140,16 +143,17 @@
       width: 100%;
       text-align: left;
       min-height: 44px;
-      padding: 10px 10px;
+      padding: 11px 12px;
       border: 0;
-      border-left: 2px solid transparent;
+      border-radius: 12px;
       background: transparent;
       color: var(--muted);
+      font-size: 15px;
+      line-height: 1.25;
     }
     .rail button[aria-current="true"] {
       color: var(--ink);
-      border-left-color: var(--ink);
-      background: #e8e0d3;
+      background: #fff;
     }
     #menu {
       position: relative;
@@ -181,7 +185,7 @@
       background: transparent;
       text-align: left;
     }
-    .feature img { width: 100%; height: 148px; object-fit: cover; background: #e6ddcf; }
+    .feature img { width: 100%; height: 148px; object-fit: cover; border-radius: 14px; background: #e6ddcf; }
     .feature:disabled img { opacity: 0.55; }
     .fn {
       display: flex;
@@ -214,7 +218,7 @@
     }
     .rows .item:first-child { border-top: 1px solid var(--line); margin-top: 8px; }
     .item:not(:disabled):hover { background: rgba(33, 28, 23, 0.035); }
-    .thumb { width: 72px; height: 72px; overflow: hidden; background: #e6ddcf; }
+    .thumb { width: 72px; height: 72px; overflow: hidden; border-radius: 12px; background: #e6ddcf; }
     .thumb img { width: 100%; height: 100%; object-fit: cover; }
     .item:disabled .thumb img { opacity: 0.45; }
     .mono {
@@ -290,8 +294,7 @@
     aside {
       min-height: 0;
       display: flex;
-      background: #ebe4d6;
-      border-left: 1px solid var(--line);
+      padding: 16px 16px 16px 0;
     }
     #slip {
       flex: 1;
@@ -299,6 +302,8 @@
       display: flex;
       flex-direction: column;
       padding: 18px 16px 14px;
+      background: #fff;
+      border-radius: 20px;
     }
     .slip-body { flex: 1; min-height: 0; overflow: auto; }
     .slip-title {
@@ -335,7 +340,9 @@
       grid-template-columns: 36px 22px 36px;
       align-items: center;
       justify-items: center;
-      border: 1px solid var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      overflow: hidden;
     }
     .stepper button {
       width: 36px;
@@ -361,6 +368,7 @@
       width: 100%;
       min-height: 48px;
       border: 0;
+      border-radius: 12px;
       background: var(--ink);
       color: #f4efe7;
       font-size: 15px;
@@ -381,6 +389,7 @@
     .q { font-variant-numeric: tabular-nums; padding-top: 3px; color: var(--muted); }
     #sheet {
       border: 0;
+      border-radius: 20px;
       padding: 0;
       color: var(--ink);
       background: #f6f1e8;
@@ -435,6 +444,7 @@
       flex: 1;
       min-height: 48px;
       border: 0;
+      border-radius: 12px;
       background: var(--ink);
       color: #f4efe7;
       font-weight: 500;
@@ -494,7 +504,6 @@
     </header>
     <div class="stage">
       <nav class="rail" aria-label="Kategorien">
-        <p class="kicker">Karte</p>
         <div id="cats"></div>
       </nav>
       <main id="menu"></main>
@@ -545,12 +554,10 @@
 
     const categories = [
       { id: "fruehstueck", label: "Frühstück", lead: "Ohne Heißgetränk. Kaffee, Tee oder Kakao bitte extra." },
-      { id: "dazu", label: "Dazu", lead: "Zusätzlich zum Frühstück." },
       { id: "kuchen", label: "Kuchentheke", lead: "Vom Stück." },
-      { id: "heiss", label: "Heißgetränke und Tee", lead: "Kaffee klein und groß auch ohne Koffein. Jede Teesorte zum gleichen Preis." },
+      { id: "heiss", label: "Café und Tee", lead: "Kaffee klein und groß auch ohne Koffein. Jede Teesorte zum gleichen Preis." },
       { id: "kalt", label: "Getränke", lead: "Alle Säfte auch als Schorle, 0,5 l." },
-      { id: "alkohol", label: "Alkohol", lead: "" },
-      { id: "wein", label: "Wein", lead: "Glas 0,2 l, Flasche 0,75 l." },
+      { id: "alkohol", label: "Bier, Wein & Cocktails", lead: "Wein im Glas 0,2 l oder als Flasche 0,75 l." },
     ];
 
     const items = [
@@ -563,26 +570,26 @@
       { id: "storchen", cat: "fruehstueck", name: "Storchen Frühstück", price: 890, codes: [1, 2, 3, 4, 5, 7, 8, 15], parts: ["1 Semmel", "1 Breze", "1 Vollkornsemmel", "Schinkenvariation", "Salami", "Käsevariation", "Fruchtaufstrich", "Frischwurst", "2 Butter", "Tomate-Mozzarella"] },
       { id: "franzoesisch", cat: "fruehstueck", name: "Französisches Frühstück", price: 650, codes: [1, 2, 3, 8], image: photo.croissant, parts: ["2 Croissants", "Honig", "Fruchtaufstrich", "1 Butter", "1 Glas frisch gepresster Orangensaft"] },
       { id: "bayerisch", cat: "fruehstueck", name: "Bayerisches Frühstück", price: 490, codes: [4, 7], days: [5, 6], image: "bilder/bayerisch.jpg", parts: ["1 Paar Weißwürste", "1 Breze", "Süßer Senf"] },
-      { id: "aufstrich", cat: "dazu", name: "Fruchtaufstrich", price: 90, size: "eine Portion" },
-      { id: "honig", cat: "dazu", name: "Honig oder Nutella", price: 80, codes: [3, 8], size: "eine Portion" },
-      { id: "butter", cat: "dazu", name: "Butter", price: 80, size: "ein Stück" },
-      { id: "leberwurst", cat: "dazu", name: "Kalbsleberwurst", price: 90, codes: [2, 8], size: "ein Stück" },
-      { id: "schinken", cat: "dazu", name: "Schinken, roh und gekocht", price: 210, codes: [2, 3, 15], size: "eine Portion" },
-      { id: "salami", cat: "dazu", name: "Salami", price: 210, codes: [2, 3, 4], size: "eine Portion" },
-      { id: "muesli", cat: "dazu", name: "Bircher Müsli", price: 290, size: "eine Portion", image: "bilder/muesli.jpg" },
-      { id: "obst", cat: "dazu", name: "Obstsalat", price: 270, size: "eine Portion" },
-      { id: "kaese", cat: "dazu", name: "Käse", price: 210, codes: [1], size: "eine Portion" },
-      { id: "frischkaese", cat: "dazu", name: "Frischkäse", price: 90, size: "eine Portion" },
-      { id: "tomate", cat: "dazu", name: "Tomate-Mozzarella", price: 210, codes: [1, 3, 5, 8], size: "eine Portion" },
-      { id: "lachs", cat: "dazu", name: "Lachs mit Sahnemeerrettich", price: 390, codes: [3], size: "eine Portion" },
-      { id: "ruehrei", cat: "dazu", name: "Rührei mit Speck", price: 310, size: "eine Portion" },
-      { id: "ei", cat: "dazu", name: "Gekochtes Ei", price: 120, size: "ein Stück" },
-      { id: "oj", cat: "dazu", name: "Orangensaft, frisch gepresst", price: 250, size: "0,2 l" },
-      { id: "semmel", cat: "dazu", name: "Semmel", price: 60, size: "ein Stück" },
-      { id: "breze", cat: "dazu", name: "Breze", price: 100, size: "ein Stück", image: photo.breze },
-      { id: "mehrkorn", cat: "dazu", name: "Mehrkornsemmel", price: 100, size: "ein Stück" },
-      { id: "croissant", cat: "dazu", name: "Croissant", price: 160, size: "ein Stück", image: photo.croissant, feature: 2, caption: "Ein Stück." },
-      { id: "butterbreze", cat: "dazu", name: "Butterbreze", price: 180, size: "ein Stück" },
+      { id: "aufstrich", cat: "fruehstueck", name: "Fruchtaufstrich", price: 90, size: "eine Portion" },
+      { id: "honig", cat: "fruehstueck", name: "Honig oder Nutella", price: 80, codes: [3, 8], size: "eine Portion" },
+      { id: "butter", cat: "fruehstueck", name: "Butter", price: 80, size: "ein Stück" },
+      { id: "leberwurst", cat: "fruehstueck", name: "Kalbsleberwurst", price: 90, codes: [2, 8], size: "ein Stück" },
+      { id: "schinken", cat: "fruehstueck", name: "Schinken, roh und gekocht", price: 210, codes: [2, 3, 15], size: "eine Portion" },
+      { id: "salami", cat: "fruehstueck", name: "Salami", price: 210, codes: [2, 3, 4], size: "eine Portion" },
+      { id: "muesli", cat: "fruehstueck", name: "Bircher Müsli", price: 290, size: "eine Portion", image: "bilder/muesli.jpg" },
+      { id: "obst", cat: "fruehstueck", name: "Obstsalat", price: 270, size: "eine Portion" },
+      { id: "kaese", cat: "fruehstueck", name: "Käse", price: 210, codes: [1], size: "eine Portion" },
+      { id: "frischkaese", cat: "fruehstueck", name: "Frischkäse", price: 90, size: "eine Portion" },
+      { id: "tomate", cat: "fruehstueck", name: "Tomate-Mozzarella", price: 210, codes: [1, 3, 5, 8], size: "eine Portion" },
+      { id: "lachs", cat: "fruehstueck", name: "Lachs mit Sahnemeerrettich", price: 390, codes: [3], size: "eine Portion" },
+      { id: "ruehrei", cat: "fruehstueck", name: "Rührei mit Speck", price: 310, size: "eine Portion" },
+      { id: "ei", cat: "fruehstueck", name: "Gekochtes Ei", price: 120, size: "ein Stück" },
+      { id: "oj", cat: "fruehstueck", name: "Orangensaft, frisch gepresst", price: 250, size: "0,2 l" },
+      { id: "semmel", cat: "fruehstueck", name: "Semmel", price: 60, size: "ein Stück" },
+      { id: "breze", cat: "fruehstueck", name: "Breze", price: 100, size: "ein Stück", image: photo.breze },
+      { id: "mehrkorn", cat: "fruehstueck", name: "Mehrkornsemmel", price: 100, size: "ein Stück" },
+      { id: "croissant", cat: "fruehstueck", name: "Croissant", price: 160, size: "ein Stück", image: photo.croissant, feature: 2, caption: "Ein Stück." },
+      { id: "butterbreze", cat: "fruehstueck", name: "Butterbreze", price: 180, size: "ein Stück" },
       { id: "kuchen", cat: "kuchen", name: "Kuchen, gebacken", price: 290 },
       { id: "sahne", cat: "kuchen", name: "Sahnetorte", price: 310 },
       { id: "butterkrem", cat: "kuchen", name: "Butterkremtorte", price: 310 },
@@ -640,12 +647,12 @@
       { id: "baileys", cat: "alkohol", name: "Baileys Original", size: "4 cl", price: 290 },
       { id: "salz-likoer", cat: "alkohol", name: "Salzgeber Likör", size: "2 cl", price: 290 },
       { id: "salz-brand", cat: "alkohol", name: "Salzgeber Brand", size: "2 cl", price: 290 },
-      { id: "merlot", cat: "wein", name: "Cavit Merlot, Trentino", size: "0,2 l", hint: "trocken, kräftig", price: 370 },
-      { id: "rot-lounge", cat: "wein", name: "Württemberg Cuvée Lounge, rot", size: "0,2 l", hint: "trocken, mild", price: 350 },
-      { id: "rot-flasche", cat: "wein", name: "Rotwein", size: "Flasche 0,75 l", price: 1100 },
-      { id: "pinot", cat: "wein", name: "Pinot Grigio, Venetien", size: "0,2 l", hint: "trocken, fruchtig", price: 350, image: "bilder/weisswein.jpg" },
-      { id: "weiss-lounge", cat: "wein", name: "Württemberg Cuvée Lounge, weiß", size: "0,2 l", hint: "halbtrocken, lebendig", price: 350 },
-      { id: "weiss-flasche", cat: "wein", name: "Weißwein", size: "Flasche 0,75 l", price: 1100 },
+      { id: "merlot", cat: "alkohol", name: "Cavit Merlot, Trentino", size: "0,2 l", hint: "trocken, kräftig", price: 370 },
+      { id: "rot-lounge", cat: "alkohol", name: "Württemberg Cuvée Lounge, rot", size: "0,2 l", hint: "trocken, mild", price: 350 },
+      { id: "rot-flasche", cat: "alkohol", name: "Rotwein", size: "Flasche 0,75 l", price: 1100 },
+      { id: "pinot", cat: "alkohol", name: "Pinot Grigio, Venetien", size: "0,2 l", hint: "trocken, fruchtig", price: 350, image: "bilder/weisswein.jpg" },
+      { id: "weiss-lounge", cat: "alkohol", name: "Württemberg Cuvée Lounge, weiß", size: "0,2 l", hint: "halbtrocken, lebendig", price: 350 },
+      { id: "weiss-flasche", cat: "alkohol", name: "Weißwein", size: "Flasche 0,75 l", price: 1100 },
     ];
 
     let cart = [];
@@ -740,7 +747,7 @@
     }
 
     function renderMenu() {
-      const nav = [...categories, { id: "zeiten", label: "Zeiten" }];
+      const nav = [...categories, { id: "zeiten", label: "Öffnungszeiten" }];
       document.getElementById("cats").innerHTML = nav.map((cat) =>
         `<button type="button" data-action="nav" data-cat="${cat.id}">${esc(cat.label)}</button>`
       ).join("");
