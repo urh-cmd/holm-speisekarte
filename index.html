@@ -190,6 +190,7 @@
     .features {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: start;
       gap: 16px;
       margin-top: 14px;
     }
@@ -284,12 +285,19 @@
     .hours li {
       display: flex;
       justify-content: space-between;
+      align-items: start;
       gap: 12px;
       padding: 7px 0;
       border-bottom: 1px solid var(--line);
       font-size: 14px;
     }
-    .hours li span:last-child { font-variant-numeric: tabular-nums; color: var(--muted); }
+    .hours li span:first-child { white-space: nowrap; }
+    .hours li span:last-child {
+      font-variant-numeric: tabular-nums;
+      color: var(--muted);
+      text-align: right;
+      white-space: nowrap;
+    }
     .key {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -495,8 +503,9 @@
       }
       .turn p {
         font-family: var(--serif);
-        font-size: 32px;
-        letter-spacing: -0.03em;
+        font-size: 28px;
+        line-height: 1.25;
+        letter-spacing: -0.02em;
       }
     }
     .to-map {
@@ -653,7 +662,7 @@
   </style>
 </head>
 <body>
-  <div class="turn"><p>Zum Vorstellen quer halten.</p></div>
+  <div class="turn"><p>Bitte das iPad<br>quer halten.</p></div>
   <div class="device">
     <header>
       <h1>
@@ -1026,7 +1035,7 @@
             <h3>Stammhaus Stetten</h3>
             <p>Hauptstraße 24<br>08261 9371</p>
             <ul class="hours">
-              <li><span>Montag bis Freitag</span><span>6:00 bis 12:30, 14:00 bis 18:00</span></li>
+              <li><span>Montag bis Freitag</span><span>6:00 bis 12:30,<br>14:00 bis 18:00</span></li>
               <li><span>Samstag</span><span>6:15 bis 12:00</span></li>
               <li><span>Sonntag</span><span>geschlossen</span></li>
             </ul>
